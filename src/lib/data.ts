@@ -1,10 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import type { Listing, Review, Booking } from '@/lib/types';
 
-export const arewaStates: string[] = [
-  'Kano', 'Kaduna', 'Katsina', 'Sokoto', 'Borno', 'Jos',
-  'Niger', 'Jigawa', 'Maradi', 'Zinder', 'Agadez',
-];
+export { arewaStates } from '@/lib/constants';
 
 const LISTING_SELECT = `
   *,
