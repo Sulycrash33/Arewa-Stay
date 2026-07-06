@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Kofar Mata design system — same tokens as ClashFree, translated to HSL
+  for shadcn's CSS-var convention. Dark is the default surface (bg #110B27);
+  light mode reuses the ClashFree contrast fix (#000000 fg / #2A2450 muted).
+*/
+@layer base {
+  :root {
+    --background: 248 45% 10%;        /* #110B27 */
+    --foreground: 40 30% 96%;
+
+    --card: 249 42% 15%;               /* #2A1F5E, lifted surface */
+    --card-foreground: 40 30% 96%;
+
+    --popover: 249 42% 13%;
+    --popover-foreground: 40 30% 96%;
+
+    --primary: 249 42% 25%;            /* #2A1F5E */
+    --primary-foreground: 40 60% 95%;
+
+    --secondary: 21 60% 45%;           /* #BD5B2C */
+    --secondary-foreground: 40 60% 97%;
+
+    --accent: 39 63% 52%;              /* #D7A33B gold */
+    --accent-foreground: 249 42% 13%;
+
+    --success: 111 22% 38%;            /* #4F7A4B */
+    --success-foreground: 0 0% 100%;
+
+    --destructive: 5 48% 40%;          /* #9C3B30 */
+    --destructive-foreground: 0 0% 100%;
+
+    --muted: 249 30% 20%;
+    --muted-foreground: 249 20% 70%;
+
+    --border: 249 25% 24%;
+    --input: 249 25% 22%;
+    --ring: 39 63% 52%;
+
+    --radius: 0.75rem;
+  }
+
+  .light {
+    --background: 40 40% 97%;
+    --foreground: 0 0% 0%;             /* #000000 — ClashFree light-mode fix */
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+
+    --primary: 249 42% 25%;
+    --primary-foreground: 40 60% 97%;
+
+    --secondary: 21 60% 45%;
+    --secondary-foreground: 40 60% 97%;
+
+    --accent: 39 63% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --success: 111 22% 32%;
+    --success-foreground: 0 0% 100%;
+
+    --destructive: 5 48% 40%;
+    --destructive-foreground: 0 0% 100%;
+
+    --muted: 250 25% 92%;
+    --muted-foreground: 249 30% 24%;   /* #2A2450 — ClashFree contrast fix */
+
+    --border: 40 20% 88%;
+    --input: 40 20% 90%;
+    --ring: 39 63% 45%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+  h1, h2, h3, h4 { @apply font-display; }
+  code, .data-grid { @apply font-data; }
+}
+
+@layer utilities {
+  .glass {
+    @apply backdrop-blur-glass bg-white/5 border border-white/10;
+  }
+}
