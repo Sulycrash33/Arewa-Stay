@@ -18,24 +18,33 @@ export default function HeroSearch() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-km-bg py-24">
-      {/* Gold map-glow — signature Arewa Stay hero element */}
+    <section className="relative overflow-hidden bg-sand py-20 md:py-28">
+      {/* Relief-pattern border along the base of the hero, referencing Hausa
+          mud-relief facades — the signature architectural touch. */}
+      <div className="absolute inset-x-0 bottom-0 relief-divider" aria-hidden />
+
+      {/* Faint indigo wash top-right — the one deliberate use of indigo,
+          echoing the Kofar Mata dye pits without overusing the color. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 h-[560px] w-[560px] -translate-x-1/2 rounded-full opacity-20 blur-3xl"
-        style={{ background: 'radial-gradient(circle, #D7A33B 0%, transparent 70%)' }}
+        className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full opacity-[0.07]"
+        style={{ background: '#1E2A4A' }}
       />
+
       <div className="container relative mx-auto px-4 text-center">
-        <h1 className="mb-4 font-display text-4xl font-semibold text-foreground md:text-6xl">
+        <span className="mb-4 inline-block font-body text-xs font-medium uppercase tracking-[0.2em] text-henna/60">
+          Northern Nigeria &middot; Niger Republic
+        </span>
+        <h1 className="mb-4 font-display text-4xl font-semibold text-henna-deep md:text-6xl">
           {t('heroTitle')}
         </h1>
-        <p className="mx-auto mb-10 max-w-2xl text-lg text-muted-foreground md:text-xl">
+        <p className="mx-auto mb-10 max-w-2xl text-lg text-henna/70 md:text-xl">
           {t('heroSubtitle')}
         </p>
 
-        <div className="glass mx-auto flex max-w-xl flex-col items-center gap-2 rounded-xl p-3 sm:flex-row">
+        <div className="topaz-glow mx-auto flex max-w-xl flex-col items-center gap-2 rounded-xl border border-topaz/25 bg-card p-3 sm:flex-row">
           <Select onValueChange={setSelectedState}>
-            <SelectTrigger className="w-full border-white/10 bg-transparent text-foreground sm:flex-1">
+            <SelectTrigger className="w-full border-transparent bg-transparent text-henna-deep sm:flex-1">
               <SelectValue placeholder={t('selectStatePlaceholder')} />
             </SelectTrigger>
             <SelectContent>
@@ -44,7 +53,7 @@ export default function HeroSearch() {
               ))}
             </SelectContent>
           </Select>
-          <Button onClick={handleSearch} size="lg" className="w-full bg-km-gold text-km-bg hover:bg-km-gold/90 sm:w-auto">
+          <Button onClick={handleSearch} size="lg" className="w-full bg-henna text-sand hover:bg-henna-deep sm:w-auto">
             <Search className="mr-2 h-5 w-5" />
             {t('searchButton')}
           </Button>

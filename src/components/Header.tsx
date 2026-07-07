@@ -59,7 +59,7 @@ const Header = () => {
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar>
             <AvatarImage src={profile?.avatar_url ?? undefined} alt={profile?.full_name ?? 'User'} />
-            <AvatarFallback className="bg-km-primary text-foreground">
+            <AvatarFallback className="bg-henna text-sand">
               {profile?.full_name?.[0]?.toUpperCase() ?? 'U'}
             </AvatarFallback>
           </Avatar>
@@ -90,7 +90,7 @@ const Header = () => {
   const guestButtons = (
     <>
       <Button variant="ghost" asChild><Link href="/auth?tab=login">{t('login')}</Link></Button>
-      <Button asChild className="bg-km-gold text-km-bg hover:bg-km-gold/90"><Link href="/auth?tab=signup">{t('signUp')}</Link></Button>
+      <Button asChild className="bg-topaz text-sand hover:bg-topaz-light"><Link href="/auth?tab=signup">{t('signUp')}</Link></Button>
     </>
   );
 

@@ -3,77 +3,47 @@
 @tailwind utilities;
 
 /*
-  Kofar Mata design system — same tokens as ClashFree, translated to HSL
-  for shadcn's CSS-var convention. Dark is the default surface (bg #110B27);
-  light mode reuses the ClashFree contrast fix (#000000 fg / #2A2450 muted).
+  Arewa Stay design system — distinct from ClashFree's Kofar Mata theme.
+  Warm ivory base (never stark white), deep henna text, antique topaz gold
+  accent, indigo reserved for one signature touch (a nod to the actual
+  Kofar Mata dye pits in Kano). Geometric relief motifs and arch shapes
+  reference Hausa mud-architecture facades — the goal is "boutique riad",
+  not "generic AI app with warm colors."
 */
 @layer base {
   :root {
-    --background: 248 45% 10%;        /* #110B27 */
-    --foreground: 40 30% 96%;
+    --background: 42 46% 91%;          /* #F6EFE1 ivory sand */
+    --foreground: 14 51% 20%;          /* #4A1F16 deep henna */
 
-    --card: 249 42% 15%;               /* #2A1F5E, lifted surface */
-    --card-foreground: 40 30% 96%;
+    --card: 45 52% 95%;                /* #FBF6EA */
+    --card-foreground: 14 51% 20%;
 
-    --popover: 249 42% 13%;
-    --popover-foreground: 40 30% 96%;
+    --popover: 45 52% 96%;
+    --popover-foreground: 14 51% 20%;
 
-    --primary: 249 42% 25%;            /* #2A1F5E */
-    --primary-foreground: 40 60% 95%;
+    --primary: 12 56% 30%;             /* #7A3220 henna accent */
+    --primary-foreground: 45 52% 96%;
 
-    --secondary: 21 60% 45%;           /* #BD5B2C */
-    --secondary-foreground: 40 60% 97%;
+    --secondary: 221 44% 21%;          /* #1E2A4A indigo — reserved, sparing use */
+    --secondary-foreground: 45 52% 96%;
 
-    --accent: 39 63% 52%;              /* #D7A33B gold */
-    --accent-foreground: 249 42% 13%;
-
-    --success: 111 22% 38%;            /* #4F7A4B */
-    --success-foreground: 0 0% 100%;
-
-    --destructive: 5 48% 40%;          /* #9C3B30 */
-    --destructive-foreground: 0 0% 100%;
-
-    --muted: 249 30% 20%;
-    --muted-foreground: 249 20% 70%;
-
-    --border: 249 25% 24%;
-    --input: 249 25% 22%;
-    --ring: 39 63% 52%;
-
-    --radius: 0.75rem;
-  }
-
-  .light {
-    --background: 40 40% 97%;
-    --foreground: 0 0% 0%;             /* #000000 — ClashFree light-mode fix */
-
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
-
-    --primary: 249 42% 25%;
-    --primary-foreground: 40 60% 97%;
-
-    --secondary: 21 60% 45%;
-    --secondary-foreground: 40 60% 97%;
-
-    --accent: 39 63% 45%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 36 71% 41%;              /* #B8791F topaz */
+    --accent-foreground: 45 52% 96%;
 
     --success: 111 22% 32%;
     --success-foreground: 0 0% 100%;
 
-    --destructive: 5 48% 40%;
+    --destructive: 5 55% 35%;
     --destructive-foreground: 0 0% 100%;
 
-    --muted: 250 25% 92%;
-    --muted-foreground: 249 30% 24%;   /* #2A2450 — ClashFree contrast fix */
+    --muted: 42 30% 85%;
+    --muted-foreground: 14 30% 34%;
 
-    --border: 40 20% 88%;
-    --input: 40 20% 90%;
-    --ring: 39 63% 45%;
+    --border: 36 30% 78%;
+    --input: 36 30% 82%;
+    --ring: 36 71% 41%;
+
+    --radius: 0.5rem;
   }
 }
 
@@ -87,7 +57,36 @@
 }
 
 @layer utilities {
-  .glass {
-    @apply backdrop-blur-glass bg-white/5 border border-white/10;
+  /* Geometric relief motif — a thin repeating diamond-lattice line, standing
+     in for the carved mud-relief patterns on Hausa architectural facades
+     (e.g. Gidan Makama, Zaria Friday Mosque). Used as a hairline section
+     divider, never as heavy decoration. */
+  .relief-divider {
+    height: 14px;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent 0 6px,
+      hsl(var(--accent) / 0.55) 6px 7px,
+      transparent 7px 13px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 6px,
+      hsl(var(--accent) / 0.55) 6px 7px,
+      transparent 7px 13px
+    );
+    background-size: 14px 14px;
+  }
+
+  /* Arch frame — Hausa architectural doorway silhouette, used on hero art
+     and featured cards instead of generic rounded rectangles. */
+  .arch-frame {
+    border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+    overflow: hidden;
+  }
+
+  .topaz-glow {
+    box-shadow: 0 8px 30px -8px hsl(var(--accent) / 0.35);
   }
 }
+

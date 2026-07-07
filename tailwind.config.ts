@@ -20,15 +20,13 @@ export default {
         data: ['var(--font-plex-mono)', 'monospace'],
       },
       colors: {
-        // Kofar Mata system — locked, shared across ClashFree and Arewa Stay
-        'km-bg': '#110B27',
-        'km-primary': '#2A1F5E',
-        'km-gold': '#D7A33B',
-        'km-secondary': '#BD5B2C',
-        'km-success': '#4F7A4B',
-        'km-danger': '#9C3B30',
-        'km-fg-light': '#000000',      // light-mode foreground
-        'km-muted-light': '#2A2450',   // light-mode muted text
+        // Arewa Stay palette — distinct from ClashFree's Kofar Mata
+        'sand': '#F6EFE1',
+        'henna': '#7A3220',
+        'henna-deep': '#4A1F16',
+        'topaz': '#B8791F',
+        'topaz-light': '#D9A03F',
+        'indigo-dye': '#1E2A4A',
 
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

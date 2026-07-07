@@ -4,6 +4,7 @@ export type BookingStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed';
 export type DisputeStatus = 'open' | 'investigating' | 'closed';
 export type PackageType = 'festival' | 'nomad';
 export type UserRole = 'guest' | 'host' | 'admin';
+export type HostTier = 'bako' | 'majidadin' | 'sarki';
 
 export interface Profile {
   id: string;
@@ -13,6 +14,9 @@ export interface Profile {
   role: UserRole;
   phone: string | null;
   bio: string | null;
+  host_tier: HostTier;
+  completed_stays: number;
+  avg_response_minutes: number | null;
 }
 
 export interface Amenity {
@@ -46,6 +50,10 @@ export interface Listing {
   no_alcohol: boolean;
   women_only: boolean;
   family_only: boolean;
+  has_zaure: boolean;
+  detached_quarters: boolean;
+  has_247_solar: boolean;
+  has_borehole: boolean;
   created_at: string;
 
   // joined/aggregated fields, populated by the query helpers in lib/data.ts
@@ -80,6 +88,7 @@ export interface Booking {
   currency: Currency;
   status: BookingStatus;
   payment_reference: string | null;
+  host_responded_at: string | null;
   created_at: string;
 }
 

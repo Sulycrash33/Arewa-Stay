@@ -30,6 +30,10 @@ export interface ListingFilters {
   minGuests?: number;
   womenOnly?: boolean;
   familyOnly?: boolean;
+  hasZaure?: boolean;
+  detachedQuarters?: boolean;
+  has247Solar?: boolean;
+  hasBorehole?: boolean;
   checkIn?: string; // ISO date — excludes listings booked across this range
   checkOut?: string;
 }
@@ -44,6 +48,10 @@ export async function getListings(filters: ListingFilters = {}): Promise<Listing
   if (filters.minGuests) query = query.gte('max_guests', filters.minGuests);
   if (filters.womenOnly) query = query.eq('women_only', true);
   if (filters.familyOnly) query = query.eq('family_only', true);
+  if (filters.hasZaure) query = query.eq('has_zaure', true);
+  if (filters.detachedQuarters) query = query.eq('detached_quarters', true);
+  if (filters.has247Solar) query = query.eq('has_247_solar', true);
+  if (filters.hasBorehole) query = query.eq('has_borehole', true);
 
   const { data, error } = await query.order('created_at', { ascending: false });
   if (error) throw error;
