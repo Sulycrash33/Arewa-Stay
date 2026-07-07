@@ -18,20 +18,26 @@ export default function HeroSearch() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-sand py-20 md:py-28">
-      {/* Relief-pattern border along the base of the hero, referencing Hausa
-          mud-relief facades — the signature architectural touch. */}
-      <div className="absolute inset-x-0 bottom-0 relief-divider" aria-hidden />
+    <section className="relative overflow-hidden bg-sand pb-20 pt-0 md:pb-28">
+      {/* Real decorative facade band — top of hero, like the painted band
+          under a roofline in Hausa architecture. This is the actual
+          signature element, not an abstraction of one. */}
+      <div className="facade-band w-full" aria-hidden />
 
-      {/* Faint indigo wash top-right — the one deliberate use of indigo,
-          echoing the Kofar Mata dye pits without overusing the color. */}
+      {/* Faint teal wash top-right, indigo wash bottom-left — richer than a
+          single flat accent, echoing the multi-color facades. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full opacity-[0.07]"
+        className="pointer-events-none absolute -right-24 top-10 h-96 w-96 rounded-full opacity-[0.10]"
+        style={{ background: '#1C6E62' }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-24 bottom-10 h-80 w-80 rounded-full opacity-[0.08]"
         style={{ background: '#1E2A4A' }}
       />
 
-      <div className="container relative mx-auto px-4 text-center">
+      <div className="container relative mx-auto px-4 pt-16 text-center">
         <span className="mb-4 inline-block font-body text-xs font-medium uppercase tracking-[0.2em] text-henna/60">
           Northern Nigeria &middot; Niger Republic
         </span>
@@ -42,7 +48,7 @@ export default function HeroSearch() {
           {t('heroSubtitle')}
         </p>
 
-        <div className="topaz-glow mx-auto flex max-w-xl flex-col items-center gap-2 rounded-xl border border-topaz/25 bg-card p-3 sm:flex-row">
+        <div className="topaz-glow mx-auto flex max-w-xl flex-col items-center gap-2 rounded-xl border-2 border-topaz/40 bg-card p-3 sm:flex-row">
           <Select onValueChange={setSelectedState}>
             <SelectTrigger className="w-full border-transparent bg-transparent text-henna-deep sm:flex-1">
               <SelectValue placeholder={t('selectStatePlaceholder')} />
@@ -59,6 +65,9 @@ export default function HeroSearch() {
           </Button>
         </div>
       </div>
+
+      {/* Bottom band bookends the section */}
+      <div className="facade-band absolute bottom-0 w-full" aria-hidden />
     </section>
   );
 }

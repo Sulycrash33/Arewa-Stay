@@ -1,0 +1,26 @@
+<svg width="320" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+  <rect width="80" height="80" fill="#F6EFE1"/>
+  <g>
+    <rect x="0" y="0" width="80" height="80" fill="none"/>
+    <path d="M0 8 H80 M0 72 H80" stroke="#4A1F16" stroke-width="3"/>
+
+    <g transform="translate(0,0)">
+      <circle cx="20" cy="40" r="14" fill="none" stroke="#1C6E62" stroke-width="3"/>
+      <circle cx="20" cy="40" r="8" fill="none" stroke="#B8791F" stroke-width="2.5"/>
+      <path d="M20 26 L23 34 L31 34 L24.5 39 L27 47 L20 42 L13 47 L15.5 39 L9 34 L17 34 Z" fill="#B8791F"/>
+      <circle cx="20" cy="40" r="3" fill="#7A3220"/>
+    </g>
+
+    <g transform="translate(40,0)">
+      <path d="M20 22 L26 40 L20 58 L14 40 Z" fill="none" stroke="#1C6E62" stroke-width="3"/>
+      <path d="M8 40 L20 34 L32 40 L20 46 Z" fill="#7A3220"/>
+      <circle cx="20" cy="40" r="4" fill="#D9A03F"/>
+    </g>
+
+    <g transform="translate(80,0)">
+      <circle cx="0" cy="40" r="14" fill="none" stroke="#1C6E62" stroke-width="3"/>
+      <circle cx="0" cy="40" r="8" fill="none" stroke="#B8791F" stroke-width="2.5"/>
+      <circle cx="0" cy="40" r="3" fill="#7A3220"/>
+    </g>
+  </g>
+</svg>

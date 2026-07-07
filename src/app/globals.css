@@ -57,25 +57,14 @@
 }
 
 @layer utilities {
-  /* Geometric relief motif — a thin repeating diamond-lattice line, standing
-     in for the carved mud-relief patterns on Hausa architectural facades
-     (e.g. Gidan Makama, Zaria Friday Mosque). Used as a hairline section
-     divider, never as heavy decoration. */
-  .relief-divider {
-    height: 14px;
-    background-image: repeating-linear-gradient(
-      45deg,
-      transparent 0 6px,
-      hsl(var(--accent) / 0.55) 6px 7px,
-      transparent 7px 13px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      transparent 0 6px,
-      hsl(var(--accent) / 0.55) 6px 7px,
-      transparent 7px 13px
-    );
-    background-size: 14px 14px;
+  /* Facade band — the actual decorative band pattern from the reference
+     photos (teal rings, gold rosettes, henna connectors), not an abstract
+     hint at one. This is the real signature element. */
+  .facade-band {
+    height: 40px;
+    background-image: url('/patterns/facade-band.svg');
+    background-repeat: repeat-x;
+    background-size: 40px 40px;
   }
 
   /* Arch frame — Hausa architectural doorway silhouette, used on hero art
@@ -83,6 +72,8 @@
   .arch-frame {
     border-radius: 50% 50% 0 0 / 30% 30% 0 0;
     overflow: hidden;
+    border: 4px solid;
+    border-image: linear-gradient(90deg, #7A3220, #B8791F, #1C6E62, #B8791F, #7A3220) 1;
   }
 
   .topaz-glow {

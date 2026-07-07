@@ -27,6 +27,7 @@ export default {
         'topaz': '#B8791F',
         'topaz-light': '#D9A03F',
         'indigo-dye': '#1E2A4A',
+        'teal-arewa': '#1C6E62',
 
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
