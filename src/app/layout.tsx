@@ -26,6 +26,14 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: 'Arewa Stay',
   description: 'Your home in the heart of Northern Nigeria and the Sahel.',
+  themeColor: '#4A1F16',
+  openGraph: {
+    title: 'Arewa Stay',
+    description: 'Your home in the heart of Northern Nigeria and the Sahel.',
+    siteName: 'Arewa Stay',
+    locale: 'en_NG',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
