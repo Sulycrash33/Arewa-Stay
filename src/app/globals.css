@@ -3,81 +3,77 @@
 @tailwind utilities;
 
 /*
-  Arewa Stay design system — distinct from ClashFree's Kofar Mata theme.
-  Warm ivory base (never stark white), deep henna text, antique topaz gold
-  accent, indigo reserved for one signature touch (a nod to the actual
-  Kofar Mata dye pits in Kano). Geometric relief motifs and arch shapes
-  reference Hausa mud-architecture facades — the goal is "boutique riad",
-  not "generic AI app with warm colors."
+  Heritage Hospitality design system — adopted from the reference M3 spec.
+  Deep Emerald (primary-container #0F5257) for actions, Ochre Gold
+  (secondary-container/#D4AF37) for highlights, Clay Brown (#C19A6B) for
+  dividers/borders, Sand (#FAF9F6) as the base canvas. shadcn's semantic
+  vars are mapped onto these exact roles so all ui/ primitives read correctly.
 */
 @layer base {
   :root {
-    --background: 42 46% 91%;          /* #F6EFE1 ivory sand */
-    --foreground: 14 51% 20%;          /* #4A1F16 deep henna */
+    --background: 40 33% 97%;           /* #faf9f6 sand */
+    --foreground: 110 4% 10%;           /* #1a1c1a on-surface */
 
-    --card: 45 52% 95%;                /* #FBF6EA */
-    --card-foreground: 14 51% 20%;
+    --card: 0 0% 100%;                  /* #ffffff surface-container-lowest */
+    --card-foreground: 110 4% 10%;
 
-    --popover: 45 52% 96%;
-    --popover-foreground: 14 51% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 110 4% 10%;
 
-    --primary: 12 56% 30%;             /* #7A3220 henna accent */
-    --primary-foreground: 45 52% 96%;
+    --primary: 186 76% 21%;             /* #0f5257 primary-container (Deep Emerald) */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 221 44% 21%;          /* #1E2A4A indigo — reserved, sparing use */
-    --secondary-foreground: 45 52% 96%;
+    --secondary: 45 98% 68%;            /* #fed65b secondary-container (Ochre) */
+    --secondary-foreground: 46 100% 23%; /* #745c00 on-secondary-container */
 
-    --accent: 36 71% 41%;              /* #B8791F topaz */
-    --accent-foreground: 45 52% 96%;
+    --accent: 46 65% 53%;               /* #D4AF37 ochre-gold */
+    --accent-foreground: 0 0% 100%;
 
     --success: 111 22% 32%;
     --success-foreground: 0 0% 100%;
 
-    --destructive: 5 55% 35%;
+    --destructive: 0 78% 39%;           /* #ba1a1a error */
     --destructive-foreground: 0 0% 100%;
 
-    --muted: 42 30% 85%;
-    --muted-foreground: 14 30% 34%;
+    --muted: 40 14% 95%;                /* #f4f3f1 surface-container-low */
+    --muted-foreground: 191 6% 27%;     /* #404849 on-surface-variant */
 
-    --border: 36 30% 78%;
-    --input: 36 30% 82%;
-    --ring: 36 71% 41%;
+    --border: 195 12% 76%;              /* #bfc8c9 outline-variant */
+    --input: 195 12% 80%;
+    --ring: 186 76% 21%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 }
 
 @layer base {
   * { @apply border-border; }
   body {
-    @apply bg-background text-foreground font-body;
+    @apply bg-background text-foreground font-body-md;
   }
-  h1, h2, h3, h4 { @apply font-display; }
-  code, .data-grid { @apply font-data; }
+  h1, h2, h3, h4 { @apply font-headline-lg; }
 }
 
 @layer utilities {
-  /* Facade band — the actual decorative band pattern from the reference
-     photos (teal rings, gold rosettes, henna connectors), not an abstract
-     hint at one. This is the real signature element. */
+  /* Tubali card — the shadow-and-inset treatment from the reference spec,
+     used instead of heavy drop shadows ("tonal layering, not shadows"). */
+  .tubali-shadow {
+    box-shadow: inset 0 0 0 1px rgba(193, 154, 107, 0.2);
+  }
+  .tubali-border {
+    border: 1px solid rgba(193, 154, 107, 0.3);
+  }
+  .active-pill-shadow {
+    box-shadow: 0 4px 12px rgba(15, 82, 87, 0.15);
+  }
+
+  /* Real decorative facade band — kept from the previous pass as a
+     complementary accent (used sparingly, e.g. inside the hero panel),
+     not as the primary structural device. */
   .facade-band {
     height: 40px;
     background-image: url('/patterns/facade-band.svg');
     background-repeat: repeat-x;
     background-size: 40px 40px;
   }
-
-  /* Arch frame — Hausa architectural doorway silhouette, used on hero art
-     and featured cards instead of generic rounded rectangles. */
-  .arch-frame {
-    border-radius: 50% 50% 0 0 / 30% 30% 0 0;
-    overflow: hidden;
-    border: 4px solid;
-    border-image: linear-gradient(90deg, #7A3220, #B8791F, #1C6E62, #B8791F, #7A3220) 1;
-  }
-
-  .topaz-glow {
-    box-shadow: 0 8px 30px -8px hsl(var(--accent) / 0.35);
-  }
 }
-

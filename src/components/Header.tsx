@@ -1,9 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Button } from './ui/button';
-import ArewaStayLogo from './ArewaStayLogo';
-import { Menu, Globe, User, MessageSquare, ShieldCheck, LogOut } from 'lucide-react';
+import { Menu, User, MessageSquare, ShieldCheck, LogOut, Search } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import {
   DropdownMenu,
@@ -16,9 +14,10 @@ import {
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { useUser } from '@/hooks/use-user';
+import { cn } from '@/lib/utils';
 
 const Header = () => {
-  const { t, setLanguage } = useLanguage();
+  const { t, language, setLanguage } = useLanguage();
   const { profile, isLoggedIn, signOut } = useUser();
   const router = useRouter();
 
@@ -30,40 +29,45 @@ const Header = () => {
 
   const navLinks = (
     <>
-      <Button variant="ghost" asChild><Link href="/listings">{t('exploreStays')}</Link></Button>
-      <Button variant="ghost" asChild><Link href="/become-a-host">{t('becomeAHost')}</Link></Button>
-      <Button variant="ghost" asChild><Link href="/about">{t('aboutUs')}</Link></Button>
-      <Button variant="ghost" asChild><Link href="/contact">{t('contact')}</Link></Button>
+      <Link href="/listings" className="font-label-md text-label-md text-on-surface-variant hover:text-primary-container transition-colors px-3 py-2">{t('exploreStays')}</Link>
+      <Link href="/become-a-host" className="font-label-md text-label-md text-on-surface-variant hover:text-primary-container transition-colors px-3 py-2">{t('becomeAHost')}</Link>
+      <Link href="/about" className="font-label-md text-label-md text-on-surface-variant hover:text-primary-container transition-colors px-3 py-2">{t('aboutUs')}</Link>
+      <Link href="/contact" className="font-label-md text-label-md text-on-surface-variant hover:text-primary-container transition-colors px-3 py-2">{t('contact')}</Link>
     </>
   );
 
-  const languageSelector = (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <Globe className="h-5 w-5" />
-          <span className="sr-only">Select language</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setLanguage('en')}>English</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setLanguage('ha')}>Hausa</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setLanguage('fr')}>Français</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+  // Persistent language switcher pill — matches the reference spec exactly:
+  // active segment gets a Deep Emerald tonal fill, inactive stay text-only.
+  const languageSwitcher = (
+    <div className="hidden md:flex bg-surface-container-low rounded-full p-1 tubali-shadow items-center">
+      {(['en', 'ha', 'fr'] as const).map((code) => (
+        <button
+          key={code}
+          onClick={() => setLanguage(code)}
+          className={cn(
+            'font-label-md text-label-md px-4 py-1.5 rounded-full transition-all',
+            language === code
+              ? 'bg-primary-container text-on-primary active-pill-shadow'
+              : 'text-primary-container hover:bg-surface-container-high'
+          )}
+        >
+          {code === 'en' ? 'English' : code === 'ha' ? 'Hausa' : 'Français'}
+        </button>
+      ))}
+    </div>
   );
 
   const userMenu = (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+        <button className="relative h-10 w-10 rounded-full overflow-hidden border border-outline-variant/30 hover:opacity-80 transition-opacity">
           <Avatar>
             <AvatarImage src={profile?.avatar_url ?? undefined} alt={profile?.full_name ?? 'User'} />
-            <AvatarFallback className="bg-henna text-sand">
+            <AvatarFallback className="bg-primary-container text-on-primary">
               {profile?.full_name?.[0]?.toUpperCase() ?? 'U'}
             </AvatarFallback>
           </Avatar>
-        </Button>
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel>{profile?.full_name || 'My Account'}</DropdownMenuLabel>
@@ -89,43 +93,43 @@ const Header = () => {
 
   const guestButtons = (
     <>
-      <Button variant="ghost" asChild><Link href="/auth?tab=login">{t('login')}</Link></Button>
-      <Button asChild className="bg-topaz text-sand hover:bg-topaz-light"><Link href="/auth?tab=signup">{t('signUp')}</Link></Button>
+      <Link href="/auth?tab=login" className="font-label-md text-label-md text-primary-container px-4 py-2">{t('login')}</Link>
+      <Link href="/auth?tab=signup" className="font-title-md text-sm bg-primary-container text-on-primary px-5 py-2 rounded-full hover:opacity-90 active-pill-shadow transition-all">{t('signUp')}</Link>
     </>
   );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/"><ArewaStayLogo /></Link>
+    <header className="sticky top-0 w-full z-40 flex justify-between items-center px-container-margin h-16 bg-surface border-b border-outline-variant/30">
+      <div className="flex items-center gap-4">
+        <div className="md:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <button aria-label="Menu" className="flex items-center justify-center text-primary-container hover:bg-surface-container-low transition-colors rounded-full p-2">
+                <Menu className="h-6 w-6" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="bg-surface">
+              <div className="flex flex-col gap-4 py-6">
+                <Link href="/" className="font-headline-lg-mobile text-headline-lg-mobile font-semibold text-primary-container">Arewa Stay</Link>
+                <nav className="flex flex-col gap-2">{navLinks}</nav>
+                <div className="flex flex-col gap-2 border-t border-outline-variant/30 pt-4">{isLoggedIn ? userMenu : guestButtons}</div>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+        <Link href="/" className="font-headline-lg-mobile text-headline-lg-mobile font-semibold text-primary-container">
+          Arewa Stay
+        </Link>
+      </div>
 
-        <nav className="hidden md:flex items-center gap-2">{navLinks}</nav>
+      <nav className="hidden md:flex items-center">{navLinks}</nav>
 
+      <div className="flex items-center gap-4">
+        {languageSwitcher}
         <div className="hidden md:flex items-center gap-2">
-          {languageSelector}
           {isLoggedIn ? userMenu : guestButtons}
         </div>
-
-        <div className="md:hidden flex items-center gap-1">
-          {languageSelector}
-          {isLoggedIn ? userMenu : (
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Menu className="h-6 w-6" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="bg-background">
-                <div className="flex flex-col gap-4 py-6">
-                  <Link href="/"><ArewaStayLogo /></Link>
-                  <nav className="flex flex-col gap-2">{navLinks}</nav>
-                  <div className="flex flex-col gap-2 border-t border-border pt-4">{guestButtons}</div>
-                </div>
-              </SheetContent>
-            </Sheet>
-          )}
-        </div>
+        <div className="md:hidden">{isLoggedIn && userMenu}</div>
       </div>
     </header>
   );

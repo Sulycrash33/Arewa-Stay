@@ -36,8 +36,8 @@ export default async function HomePage() {
           </p>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div className="flex flex-col items-center rounded-lg bg-background p-6 shadow-sm">
-              <div className="mb-4 rounded-full bg-km-gold/15 p-4">
-                <Gem className="h-8 w-8 text-km-gold" />
+              <div className="mb-4 rounded-full bg-primary-container/10 p-4">
+                <Gem className="h-8 w-8 text-primary-container" />
               </div>
               <h3 className="mb-2 font-headline text-xl font-semibold">Wedding Prep Suites</h3>
               <p className="text-muted-foreground">
@@ -45,8 +45,8 @@ export default async function HomePage() {
               </p>
             </div>
             <div className="flex flex-col items-center rounded-lg bg-background p-6 shadow-sm">
-              <div className="mb-4 rounded-full bg-km-gold/15 p-4">
-                <Building className="h-8 w-8 text-km-gold" />
+              <div className="mb-4 rounded-full bg-primary-container/10 p-4">
+                <Building className="h-8 w-8 text-primary-container" />
               </div>
               <h3 className="mb-2 font-headline text-xl font-semibold">Family & Event Houses</h3>
               <p className="text-muted-foreground">
@@ -54,8 +54,8 @@ export default async function HomePage() {
               </p>
             </div>
             <div className="flex flex-col items-center rounded-lg bg-background p-6 shadow-sm">
-              <div className="mb-4 rounded-full bg-km-gold/15 p-4">
-                <Briefcase className="h-8 w-8 text-km-gold" />
+              <div className="mb-4 rounded-full bg-primary-container/10 p-4">
+                <Briefcase className="h-8 w-8 text-primary-container" />
               </div>
               <h3 className="mb-2 font-headline text-xl font-semibold">Long-Stay Nomad Packages</h3>
               <p className="text-muted-foreground">
@@ -72,8 +72,8 @@ export default async function HomePage() {
           <h2 className="mb-8 font-headline text-3xl font-bold">Why Choose Arewa Stay</h2>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div className="flex flex-col items-center rounded-lg bg-card p-6 text-center shadow-sm">
-              <div className="mb-4 rounded-full bg-km-gold/15 p-4">
-                <Heart className="h-8 w-8 text-km-gold" />
+              <div className="mb-4 rounded-full bg-primary-container/10 p-4">
+                <Heart className="h-8 w-8 text-primary-container" />
               </div>
               <h3 className="mb-2 font-headline text-xl font-semibold">Culturally attuned</h3>
               <p className="text-muted-foreground">
@@ -81,8 +81,8 @@ export default async function HomePage() {
               </p>
             </div>
             <div className="flex flex-col items-center rounded-lg bg-card p-6 text-center shadow-sm">
-              <div className="mb-4 rounded-full bg-km-gold/15 p-4">
-                <Shield className="h-8 w-8 text-km-gold" />
+              <div className="mb-4 rounded-full bg-primary-container/10 p-4">
+                <Shield className="h-8 w-8 text-primary-container" />
               </div>
               <h3 className="mb-2 font-headline text-xl font-semibold">Verified hosts</h3>
               <p className="text-muted-foreground">
@@ -90,8 +90,8 @@ export default async function HomePage() {
               </p>
             </div>
             <div className="flex flex-col items-center rounded-lg bg-card p-6 text-center shadow-sm">
-              <div className="mb-4 rounded-full bg-km-gold/15 p-4">
-                <Users className="h-8 w-8 text-km-gold" />
+              <div className="mb-4 rounded-full bg-primary-container/10 p-4">
+                <Users className="h-8 w-8 text-primary-container" />
               </div>
               <h3 className="mb-2 font-headline text-xl font-semibold">Cross-border, both currencies</h3>
               <p className="text-muted-foreground">
