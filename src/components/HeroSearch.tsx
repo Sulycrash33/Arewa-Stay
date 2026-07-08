@@ -20,15 +20,16 @@ export default function HeroSearch() {
   return (
     <section className="relative w-full flex flex-col md:flex-row items-stretch overflow-hidden">
       {/* Decorative panel — stands in for a hero property photograph until
-          real listing photography exists. Facade-band pattern + emerald
-          gradient, referencing the architecture without needing a stock photo. */}
+          real listing photography exists. Real henna-linework pattern as a
+          subtle full-panel texture, referencing the culture directly rather
+          than an abstract repeating band. */}
       <div className="relative md:w-[45%] lg:w-[40%] h-64 md:h-auto overflow-hidden rounded-b-[2rem] md:rounded-none md:rounded-br-[4rem] bg-primary-container">
         <div
           className="absolute inset-0 opacity-20"
           style={{ background: 'radial-gradient(circle at 30% 20%, #96d0d6 0%, transparent 60%)' }}
           aria-hidden
         />
-        <div className="facade-band absolute bottom-0 w-full opacity-90" aria-hidden />
+        <div className="henna-pattern-light absolute inset-0" aria-hidden />
         <svg className="absolute bottom-0 right-0 w-32 h-32 text-surface opacity-90 hidden md:block" preserveAspectRatio="none" viewBox="0 0 100 100" aria-hidden>
           <polygon fill="currentColor" points="100,100 100,0 0,100" />
         </svg>

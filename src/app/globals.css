@@ -67,13 +67,18 @@
     box-shadow: 0 4px 12px rgba(15, 82, 87, 0.15);
   }
 
-  /* Real decorative facade band — kept from the previous pass as a
-     complementary accent (used sparingly, e.g. inside the hero panel),
-     not as the primary structural device. */
-  .facade-band {
-    height: 40px;
-    background-image: url('/patterns/facade-band.svg');
-    background-repeat: repeat-x;
-    background-size: 40px 40px;
+  /* Henna linework pattern — real mehndi-style paisley/floral motifs used as
+     a subtle background texture, replacing the earlier repeating icon-strip
+     band. Two variants: dark linework for light surfaces, light linework
+     for dark surfaces (e.g. the primary-container hero panel). */
+  .henna-pattern {
+    background-image: url('/patterns/henna.svg');
+    background-repeat: repeat;
+    background-size: 240px 240px;
+  }
+  .henna-pattern-light {
+    background-image: url('/patterns/henna-light.svg');
+    background-repeat: repeat;
+    background-size: 240px 240px;
   }
 }

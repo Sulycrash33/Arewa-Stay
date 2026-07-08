@@ -8,9 +8,9 @@ const Footer = () => {
   const { t } = useLanguage();
 
   return (
-    <footer className="bg-card border-t">
-      <div className="facade-band w-full" aria-hidden />
-      <div className="container mx-auto px-4 py-8">
+    <footer className="relative bg-surface-container-low border-t border-outline-variant/30 overflow-hidden">
+      <div className="henna-pattern absolute inset-0 opacity-40" aria-hidden />
+      <div className="relative container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
             <ArewaStayLogo />
