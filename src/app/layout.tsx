@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Hanken_Grotesk, Geist } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
@@ -18,10 +18,13 @@ const geist = Geist({
   weight: ['400', '500', '600'],
 });
 
+export const viewport: Viewport = {
+  themeColor: '#0F5257',
+};
+
 export const metadata: Metadata = {
   title: 'Arewa Stay — Modern Comfort, Timeless Heritage',
   description: 'Authentic Northern Nigerian boutique hospitality. Discover curated stays across Kano, Kaduna, Sokoto and beyond.',
-  themeColor: '#0F5257',
   openGraph: {
     title: 'Arewa Stay',
     description: 'Modern Comfort, Timeless Heritage — boutique stays across Northern Nigeria and the Sahel.',
