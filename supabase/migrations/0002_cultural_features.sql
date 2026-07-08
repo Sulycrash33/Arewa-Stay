@@ -72,3 +72,16 @@ create policy "users submit own verification" on host_verifications for insert w
 -- migration only let guests cancel their own bookings.
 create policy "hosts respond to bookings on own listings" on bookings for update
   using (exists (select 1 from listings l where l.id = listing_id and l.host_id = auth.uid()));
+
+-- Migration 0004 (appended): contact form submissions
+create table contact_messages (
+  id uuid primary key default uuid_generate_v4(),
+  name text not null,
+  email text not null,
+  subject text not null,
+  message text not null,
+  created_at timestamptz not null default now()
+);
+
+alter table contact_messages enable row level security;
+create policy "anyone can submit contact messages" on contact_messages for insert with check (true);
