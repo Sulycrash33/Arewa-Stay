@@ -66,3 +66,9 @@ create table host_verifications (
 alter table host_verifications enable row level security;
 create policy "users see own verification" on host_verifications for select using (user_id = auth.uid());
 create policy "users submit own verification" on host_verifications for insert with check (user_id = auth.uid());
+
+-- Migration 0003 (appended): hosts need update rights on bookings for their
+-- own listings, to actually accept/decline (Maraba/Nemi Wani) — the earlier
+-- migration only let guests cancel their own bookings.
+create policy "hosts respond to bookings on own listings" on bookings for update
+  using (exists (select 1 from listings l where l.id = listing_id and l.host_id = auth.uid()));

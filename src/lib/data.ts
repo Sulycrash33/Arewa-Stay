@@ -141,3 +141,69 @@ export async function createBooking(input: {
   }
   return { booking: data, error: null };
 }
+
+/** Full booking detail for the host's review screen — booking + listing + guest profile. */
+export async function getBookingForReview(bookingId: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('bookings')
+    .select(`
+      *,
+      listing:listings ( id, title, city, state, host_id ),
+      guest:profiles!bookings_guest_id_fkey ( id, full_name, avatar_url, host_tier, completed_stays, phone )
+    `)
+    .eq('id', bookingId)
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+/** Host responds to a booking request: Maraba (accept) or Nemi Wani (decline/redirect). */
+export async function respondToBooking(bookingId: string, action: 'accept' | 'decline') {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from('bookings')
+    .update({
+      status: action === 'accept' ? 'confirmed' : 'cancelled',
+      host_responded_at: new Date().toISOString(),
+    })
+    .eq('id', bookingId);
+  if (error) throw error;
+}
+
+/** Host verification status + trust-tier progress, for the verification stepper screen. */
+export async function getHostVerificationStatus(userId: string) {
+  const supabase = await createClient();
+  const [{ data: profile, error: profileError }, { data: verifications, error: verError }] = await Promise.all([
+    supabase.from('profiles').select('host_tier, completed_stays, avg_response_minutes').eq('id', userId).single(),
+    supabase.from('host_verifications').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
+  ]);
+  if (profileError) throw profileError;
+  if (verError) throw verError;
+  return { profile, latestVerification: verifications?.[0] ?? null };
+}
+
+/** Submit for host verification. Note: we never store a raw NIN/BVN number —
+ * only the fact that a submission happened, pending review by a liaison or a
+ * licensed identity-verification provider integration. */
+export async function submitHostVerification(userId: string, idType: 'NIN' | 'BVN') {
+  const supabase = await createClient();
+  const { error } = await supabase.from('host_verifications').insert({
+    user_id: userId,
+    notes: `${idType} submitted for verification`,
+    status: 'pending',
+  });
+  if (error) throw error;
+}
+
+/** Update the cultural/infrastructure toggles on a listing (property wizard step). */
+export async function updateListingCulturalFeatures(listingId: string, features: {
+  has_zaure?: boolean;
+  detached_quarters?: boolean;
+  has_247_solar?: boolean;
+  has_borehole?: boolean;
+}) {
+  const supabase = await createClient();
+  const { error } = await supabase.from('listings').update(features).eq('id', listingId);
+  if (error) throw error;
+}
