@@ -3,6 +3,7 @@ import Image from 'next/image';
 import type { Listing } from '@/lib/types';
 import { MapPin, Star } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
+import SaveButton from './SaveButton';
 
 const currencySymbol = (currency: 'NGN' | 'XOF') => (currency === 'NGN' ? '₦' : 'CFA');
 
@@ -47,8 +48,10 @@ const PropertyCard = ({ property }: { property: Listing }) => {
           )}
         </Carousel>
 
+        <SaveButton listingId={property.id} />
+
         {rating > 0 && (
-          <div className="absolute top-3 right-3 flex items-center gap-1 rounded-full bg-inverse-surface/90 px-2.5 py-1 text-xs font-medium text-inverse-on-surface">
+          <div className="absolute top-3 left-3 flex items-center gap-1 rounded-full bg-inverse-surface/90 px-2.5 py-1 text-xs font-medium text-inverse-on-surface">
             <Star className="w-3.5 h-3.5 text-ochre-gold fill-ochre-gold" />
             <span>{rating.toFixed(1)}</span>
             <span className="text-inverse-on-surface/60">({reviewCount})</span>
