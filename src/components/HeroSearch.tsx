@@ -4,22 +4,22 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from '@/components/ui/select';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { arewaStates } from '@/lib/constants';
+import { allRegions } from '@/lib/constants';
 import HeroIllustration from './HeroIllustration';
 
 export default function HeroSearch() {
   const { t } = useLanguage();
   const router = useRouter();
-  const [selectedState, setSelectedState] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [guests, setGuests] = useState('2');
 
   const handleSearch = () => {
     const params = new URLSearchParams();
-    if (selectedState) params.set('state', selectedState);
+    if (selectedCity) params.set('city', selectedCity);
     router.push(`/listings${params.toString() ? `?${params.toString()}` : ''}`);
   };
 
@@ -63,13 +63,18 @@ export default function HeroSearch() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
             <div className="border-b-2 border-clay-brown/30 focus-within:border-primary-container transition-colors pb-1">
               <label className="block font-label-sm text-label-sm text-on-surface-variant mb-1">Destination</label>
-              <Select onValueChange={setSelectedState}>
+              <Select onValueChange={setSelectedCity}>
                 <SelectTrigger className="w-full border-none p-0 h-auto bg-transparent font-body-md text-on-surface focus:ring-0 shadow-none">
-                  <SelectValue placeholder={t('selectStatePlaceholder')} />
+                  <SelectValue placeholder="Where are you going?" />
                 </SelectTrigger>
-                <SelectContent>
-                  {arewaStates.map((state) => (
-                    <SelectItem key={state} value={state}>{state}</SelectItem>
+                <SelectContent className="max-h-72">
+                  {allRegions.map((group) => (
+                    <SelectGroup key={group.state}>
+                      <SelectLabel>{group.state}</SelectLabel>
+                      {group.cities.map((city) => (
+                        <SelectItem key={city} value={city}>{city}</SelectItem>
+                      ))}
+                    </SelectGroup>
                   ))}
                 </SelectContent>
               </Select>

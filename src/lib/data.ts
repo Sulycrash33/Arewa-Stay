@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import type { Listing, Review, Booking } from '@/lib/types';
 
-export { arewaStates } from '@/lib/constants';
+export { arewaStates, arewaCities, allRegions } from '@/lib/constants';
 
 const LISTING_SELECT = `
   *,
