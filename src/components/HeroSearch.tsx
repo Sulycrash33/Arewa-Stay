@@ -7,7 +7,8 @@ import Link from 'next/link';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from '@/components/ui/select';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { allRegions } from '@/lib/constants';
-import HeroIllustration from './HeroIllustration';
+import { heroPhotos } from '@/lib/stock-photos';
+import Image from 'next/image';
 
 export default function HeroSearch() {
   const { t } = useLanguage();
@@ -25,14 +26,17 @@ export default function HeroSearch() {
 
   return (
     <section className="relative w-full overflow-hidden">
-      {/* Full-bleed hero illustration — original vector artwork (Hausa gate
-          silhouette, Durbar-inspired horseman motif) rather than a stock
-          photo, so representation stays accurate and nothing is hotlinked
-          from an uncertain-license source. */}
+      {/* Full-bleed hero photo — real, free-license photography of Gidan Dan
+          Hausa (Kano), genuine Hausa mud-wall architecture. Sourced from
+          Pexels (free for commercial use, no attribution required). */}
       <div className="relative h-[520px] md:h-[600px] w-full">
-        <div className="absolute inset-0">
-          <HeroIllustration />
-        </div>
+        <Image
+          src={heroPhotos.architecture}
+          alt="Gidan Dan Hausa, traditional Hausa architecture in Kano, Nigeria"
+          fill
+          priority
+          className="object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/40" />
 
         <div className="relative z-10 h-full flex flex-col justify-center container mx-auto px-4">

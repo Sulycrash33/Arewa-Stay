@@ -1,13 +1,15 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Crown, Sun, Home as HomeIcon, Briefcase, Landmark, Music } from 'lucide-react';
+import { architecturePhotos, culturePhotos } from '@/lib/stock-photos';
 
 const COLLECTIONS = [
-  { icon: Crown, title: 'Royal Wedding Suites', desc: 'Celebrate in style.', gradient: 'from-tertiary-container to-m3-tertiary' },
-  { icon: Sun, title: 'Desert Escapes', desc: 'Serenity, silence, stars.', gradient: 'from-secondary-fixed-dim to-m3-secondary' },
-  { icon: HomeIcon, title: 'Family Compounds', desc: 'Together, comfortably.', gradient: 'from-primary-fixed-dim to-primary-container' },
-  { icon: Briefcase, title: 'Executive Residences', desc: 'Work. Rest. Thrive.', gradient: 'from-surface-tint to-m3-primary' },
-  { icon: Landmark, title: 'Heritage Homes', desc: 'Stay where history lives.', gradient: 'from-tertiary-fixed-dim to-tertiary-container' },
-  { icon: Music, title: 'Weekend Retreats', desc: 'Short trips. Big memories.', gradient: 'from-primary-container to-m3-primary' },
+  { icon: Crown, title: 'Royal Wedding Suites', desc: 'Celebrate in style.', photo: culturePhotos[3] },
+  { icon: Sun, title: 'Desert Escapes', desc: 'Serenity, silence, stars.', photo: architecturePhotos[6] },
+  { icon: HomeIcon, title: 'Family Compounds', desc: 'Together, comfortably.', photo: architecturePhotos[7] },
+  { icon: Briefcase, title: 'Executive Residences', desc: 'Work. Rest. Thrive.', photo: architecturePhotos[2] },
+  { icon: Landmark, title: 'Heritage Homes', desc: 'Stay where history lives.', photo: architecturePhotos[0] },
+  { icon: Music, title: 'Weekend Retreats', desc: 'Short trips. Big memories.', photo: culturePhotos[1] },
 ];
 
 export default function CuratedCollections() {
@@ -24,15 +26,25 @@ export default function CuratedCollections() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-        {COLLECTIONS.map(({ icon: Icon, title, desc, gradient }) => (
+        {COLLECTIONS.map(({ icon: Icon, title, desc, photo }) => (
           <Link
             key={title}
             href="/listings"
-            className={`relative aspect-square rounded-tubali overflow-hidden bg-gradient-to-br ${gradient} p-4 flex flex-col justify-end group hover:-translate-y-1 transition-transform`}
+            className="relative aspect-square rounded-tubali overflow-hidden group hover:-translate-y-1 transition-transform"
           >
-            <Icon className="absolute top-4 left-4 h-6 w-6 text-white/70" />
-            <h3 className="font-title-md text-sm md:text-title-md text-white leading-tight">{title}</h3>
-            <p className="font-label-sm text-label-sm text-white/70 mt-1 hidden md:block">{desc}</p>
+            <Image
+              src={photo}
+              alt={title}
+              fill
+              sizes="(max-width: 768px) 50vw, 16vw"
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-black/10" />
+            <div className="absolute inset-0 p-4 flex flex-col justify-end">
+              <Icon className="absolute top-4 left-4 h-6 w-6 text-white/80" />
+              <h3 className="font-title-md text-sm md:text-title-md text-white leading-tight">{title}</h3>
+              <p className="font-label-sm text-label-sm text-white/70 mt-1 hidden md:block">{desc}</p>
+            </div>
           </Link>
         ))}
       </div>

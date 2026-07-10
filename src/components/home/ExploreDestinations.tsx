@@ -1,12 +1,9 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
-import { MapPin } from 'lucide-react';
 import { allRegions } from '@/lib/constants';
+import { architecturePhotos } from '@/lib/stock-photos';
 
-// Feature the biggest hubs first, but the full expanded list (all 19 Northern
-// Nigeria states + FCT, plus Niger Republic) is reachable via "View all" on
-// the /listings page — so every host's town has a real path to visibility,
-// not just the handful of cities that fit on a homepage grid.
 const FEATURED_CITIES = [
   'Abuja', 'Kano', 'Kaduna', 'Zaria', 'Katsina', 'Sokoto', 'Birnin Kebbi', 'Gusau',
   'Maiduguri', 'Damaturu', 'Bauchi', 'Azare', 'Gombe', 'Yola', 'Jalingo',
@@ -46,11 +43,15 @@ export default async function ExploreDestinations() {
             href={`/listings?city=${encodeURIComponent(city)}`}
             className="group rounded-tubali overflow-hidden border border-outline-variant/30 hover:shadow-tubali transition-shadow"
           >
-            <div
-              className="aspect-[4/3] flex items-center justify-center"
-              style={{ background: `linear-gradient(135deg, hsl(${(i * 37) % 360} 35% 30%), hsl(${(i * 37 + 40) % 360} 30% 45%))` }}
-            >
-              <MapPin className="h-8 w-8 text-white/60" />
+            <div className="aspect-[4/3] relative">
+              <Image
+                src={architecturePhotos[i % architecturePhotos.length]}
+                alt={`Traditional Northern Nigerian architecture, representative of ${city}`}
+                fill
+                sizes="(max-width: 768px) 50vw, 20vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
             </div>
             <div className="p-2 bg-surface-container-lowest">
               <h3 className="font-title-md text-sm text-on-surface">{city}</h3>
