@@ -10,6 +10,71 @@
 // hotel photography is available — flagging this plainly rather than passing
 // it off as Nigerian.
 
+// ============================================================================
+// Real property photography — provided directly by the client, extracted from
+// a merged photo gallery and organized here. These are genuine property
+// exteriors/interiors (no location captions were provided, so these are used
+// as representative imagery, not claimed as specific named landmarks).
+// Stored locally in /public/images/properties/ rather than hotlinked.
+// ============================================================================
+export const realPropertyPhotos = {
+  livingRooms: [
+    '/images/properties/living-room-01.jpg',
+    '/images/properties/living-room-02.jpg',
+    '/images/properties/living-room-03.jpg',
+    '/images/properties/living-room-04.jpg',
+    '/images/properties/dining-living-01.jpg',
+  ],
+  bedrooms: [
+    '/images/properties/bedroom-01.jpg',
+  ],
+  kitchens: [
+    '/images/properties/kitchen-01.jpg',
+  ],
+  pools: [
+    '/images/properties/pool-deck-01.jpg',
+    '/images/properties/pool-loungers-01.jpg',
+    '/images/properties/resort-pool-arches-01.jpg',
+  ],
+  exteriors: [
+    '/images/properties/exterior-vip-01.jpg',
+    '/images/properties/exterior-night-01.jpg',
+    '/images/properties/exterior-apartments-01.jpg',
+    '/images/properties/exterior-apartments-02.jpg',
+    '/images/properties/exterior-apartments-03.jpg',
+    '/images/properties/exterior-carport-01.jpg',
+    '/images/properties/exterior-house-01.jpg',
+    '/images/properties/exterior-townhouses-01.jpg',
+    '/images/properties/exterior-modern-01.jpg',
+    '/images/properties/exterior-orange-01.jpg',
+    '/images/properties/exterior-cream-01.jpg',
+    '/images/properties/exterior-dark-01.jpg',
+    '/images/properties/street-exterior-01.jpg',
+  ],
+  compound: [
+    '/images/properties/aerial-compound-01.jpg',
+  ],
+  lodges: [
+    '/images/properties/lodge-huts-night-01.jpg',
+    '/images/properties/lodge-huts-garden-01.jpg',
+  ],
+  nature: [
+    '/images/properties/nature-path-01.jpg',
+  ],
+};
+
+// Flat list of everything, for a general-purpose fallback rotation (e.g. a
+// listing that has no host-uploaded photos yet).
+export const allPropertyPhotos: string[] = [
+  ...realPropertyPhotos.exteriors,
+  ...realPropertyPhotos.livingRooms,
+  ...realPropertyPhotos.bedrooms,
+  ...realPropertyPhotos.kitchens,
+  ...realPropertyPhotos.pools,
+  ...realPropertyPhotos.compound,
+  ...realPropertyPhotos.lodges,
+];
+
 export const heroPhotos = {
   // Real, free-license luxury riad courtyard (Marrakech, Morocco) — NOT
   // Nigerian, used as the closest available match for "premium hospitality"

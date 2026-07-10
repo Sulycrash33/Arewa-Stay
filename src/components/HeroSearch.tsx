@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from '@/components/ui/select';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { allRegions } from '@/lib/constants';
-import { heroPhotos } from '@/lib/stock-photos';
+import { heroPhotos, realPropertyPhotos } from '@/lib/stock-photos';
 import Image from 'next/image';
 
 export default function HeroSearch() {
@@ -31,8 +31,8 @@ export default function HeroSearch() {
           Pexels (free for commercial use, no attribution required). */}
       <div className="relative h-[520px] md:h-[600px] w-full">
         <Image
-          src={heroPhotos.luxuryRiad}
-          alt="Luxury courtyard hospitality — Arewa Stay boutique accommodation"
+          src={realPropertyPhotos.pools[2]}
+          alt="Boutique resort-style pool — Arewa Stay premium hospitality"
           fill
           priority
           className="object-cover"

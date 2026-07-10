@@ -5,10 +5,21 @@ import { MapPin, Star } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
 import SaveButton from './SaveButton';
 
+import { allPropertyPhotos } from '@/lib/stock-photos';
+
 const currencySymbol = (currency: 'NGN' | 'XOF') => (currency === 'NGN' ? '₦' : 'CFA');
 
+// Deterministic fallback photo per listing (stable across re-renders) for
+// listings without host-uploaded photos yet — replaces a previously broken
+// reference to a placeholder file that never existed in /public.
+function fallbackPhotoFor(id: string): string {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
+  return allPropertyPhotos[hash % allPropertyPhotos.length];
+}
+
 const PropertyCard = ({ property }: { property: Listing }) => {
-  const images = property.images?.length ? property.images : ['/placeholder-listing.jpg'];
+  const images = property.images?.length ? property.images : [fallbackPhotoFor(property.id)];
   const rating = property.avg_rating ?? 0;
   const reviewCount = property.review_count ?? 0;
 
