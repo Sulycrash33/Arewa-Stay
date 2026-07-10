@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
 import { allRegions } from '@/lib/constants';
-import { architecturePhotos } from '@/lib/stock-photos';
+import { architecturePhotos, cityLandmarks } from '@/lib/stock-photos';
 
 const FEATURED_CITIES = [
   'Abuja', 'Kano', 'Kaduna', 'Zaria', 'Katsina', 'Sokoto', 'Birnin Kebbi', 'Gusau',
@@ -45,8 +45,8 @@ export default async function ExploreDestinations() {
           >
             <div className="aspect-[4/3] relative">
               <Image
-                src={architecturePhotos[i % architecturePhotos.length]}
-                alt={`Traditional Northern Nigerian architecture, representative of ${city}`}
+                src={cityLandmarks[city] ?? architecturePhotos[i % architecturePhotos.length]}
+                alt={cityLandmarks[city] ? `${city} landmark` : `Traditional Northern Nigerian architecture, representative of ${city}`}
                 fill
                 sizes="(max-width: 768px) 50vw, 20vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"

@@ -1,15 +1,15 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Crown, Sun, Home as HomeIcon, Briefcase, Landmark, Music } from 'lucide-react';
-import { architecturePhotos, culturePhotos } from '@/lib/stock-photos';
+import { collectionPhotos } from '@/lib/stock-photos';
 
 const COLLECTIONS = [
-  { icon: Crown, title: 'Royal Wedding Suites', desc: 'Celebrate in style.', photo: culturePhotos[3] },
-  { icon: Sun, title: 'Desert Escapes', desc: 'Serenity, silence, stars.', photo: architecturePhotos[6] },
-  { icon: HomeIcon, title: 'Family Compounds', desc: 'Together, comfortably.', photo: architecturePhotos[7] },
-  { icon: Briefcase, title: 'Executive Residences', desc: 'Work. Rest. Thrive.', photo: architecturePhotos[2] },
-  { icon: Landmark, title: 'Heritage Homes', desc: 'Stay where history lives.', photo: architecturePhotos[0] },
-  { icon: Music, title: 'Weekend Retreats', desc: 'Short trips. Big memories.', photo: culturePhotos[1] },
+  { icon: Crown, title: 'Royal Wedding Suites', desc: 'Celebrate in style.', photo: collectionPhotos.royalWeddingSuites },
+  { icon: Sun, title: 'Desert Escapes', desc: 'Serenity, silence, stars.', photo: collectionPhotos.desertEscapes },
+  { icon: HomeIcon, title: 'Family Compounds', desc: 'Together, comfortably.', photo: collectionPhotos.familyCompounds },
+  { icon: Briefcase, title: 'Executive Residences', desc: 'Work. Rest. Thrive.', photo: collectionPhotos.executiveResidences },
+  { icon: Landmark, title: 'Heritage Homes', desc: 'Stay where history lives.', photo: collectionPhotos.heritageHomes },
+  { icon: Music, title: 'Weekend Retreats', desc: 'Short trips. Big memories.', photo: collectionPhotos.weekendRetreats },
 ];
 
 export default function CuratedCollections() {

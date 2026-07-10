@@ -31,8 +31,8 @@ export default function HeroSearch() {
           Pexels (free for commercial use, no attribution required). */}
       <div className="relative h-[520px] md:h-[600px] w-full">
         <Image
-          src={heroPhotos.architecture}
-          alt="Gidan Dan Hausa, traditional Hausa architecture in Kano, Nigeria"
+          src={heroPhotos.luxuryRiad}
+          alt="Luxury courtyard hospitality — Arewa Stay boutique accommodation"
           fill
           priority
           className="object-cover"
