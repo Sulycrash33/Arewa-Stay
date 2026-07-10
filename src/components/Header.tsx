@@ -16,6 +16,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { useUser } from '@/hooks/use-user';
 import { cn } from '@/lib/utils';
+import ArewaStayLogo from './ArewaStayLogo';
 
 const Header = () => {
   const { t, language, setLanguage } = useLanguage();
@@ -134,7 +135,7 @@ const Header = () => {
             </SheetTrigger>
             <SheetContent side="right" className="bg-surface">
               <div className="flex flex-col gap-4 py-6">
-                <Link href="/" className="font-headline-lg-mobile text-headline-lg-mobile font-semibold text-primary-container">Arewa Stay</Link>
+                <Link href="/"><ArewaStayLogo /></Link>
                 <nav className="flex flex-col gap-2">
                   {NAV_ITEMS.map((item) => (
                     <Link key={item.href} href={item.href} className="font-label-md text-label-md text-on-surface-variant hover:text-primary-container transition-colors px-1 py-2">{item.label}</Link>
@@ -154,8 +155,8 @@ const Header = () => {
             </SheetContent>
           </Sheet>
         </div>
-        <Link href="/" className={cn('font-headline-lg-mobile text-headline-lg-mobile font-semibold', isHome && !scrolled ? 'text-white' : 'text-primary-container')}>
-          Arewa Stay
+        <Link href="/">
+          <ArewaStayLogo variant={isHome && !scrolled ? 'light' : 'default'} />
         </Link>
       </div>
 
