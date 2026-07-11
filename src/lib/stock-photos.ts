@@ -82,6 +82,8 @@ export const heroPhotos = {
   luxuryRiad: 'https://images.pexels.com/photos/31356131/pexels-photo-31356131.png?auto=compress&cs=tinysrgb&w=1600',
   // Gidan Dan Hausa, Kano — real, genuinely Nigerian Hausa architecture
   architecture: 'https://images.pexels.com/photos/31603813/pexels-photo-31603813.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  // Real, team-submitted property photo — modern building exterior, night lighting
+  realProperty: realPropertyPhotos.exteriors[1], // exterior-night-01
 };
 
 // City landmark photos — genuine, verified matches where they exist.
@@ -114,13 +116,12 @@ export const culturePhotos: string[] = [
 
 // Curated Collections — one representative interior/exterior photo per
 // category, matching what the category is actually about (not a landmark).
-// All real Pexels photography; none are Nigeria-specific (generic luxury
-// hospitality stock), flagged honestly as placeholders pending real photos.
+// Real, team-submitted photography (realPropertyPhotos above), not generic stock.
 export const collectionPhotos = {
-  royalWeddingSuites: 'https://images.pexels.com/photos/31737843/pexels-photo-31737843.jpeg?auto=compress&cs=tinysrgb&w=800', // luxury bedroom, elegant decor
-  desertEscapes: 'https://images.pexels.com/photos/11387348/pexels-photo-11387348.jpeg?auto=compress&cs=tinysrgb&w=800', // desert tents, dunes
-  familyCompounds: 'https://images.pexels.com/photos/37939531/pexels-photo-37939531.jpeg?auto=compress&cs=tinysrgb&w=800', // traditional compound
-  executiveResidences: 'https://images.pexels.com/photos/34672503/pexels-photo-34672503.jpeg?auto=compress&cs=tinysrgb&w=800', // modern spacious bedroom, large windows
-  heritageHomes: 'https://images.pexels.com/photos/31603813/pexels-photo-31603813.jpeg?auto=compress&cs=tinysrgb&w=800', // Gidan Dan Hausa
-  weekendRetreats: 'https://images.pexels.com/photos/29453302/pexels-photo-29453302.jpeg?auto=compress&cs=tinysrgb&w=800', // villa with pool, garden
+  royalWeddingSuites: realPropertyPhotos.bedrooms[0],
+  desertEscapes: realPropertyPhotos.pools[2], // resort-pool-arches
+  familyCompounds: realPropertyPhotos.compound[0],
+  executiveResidences: realPropertyPhotos.livingRooms[2],
+  heritageHomes: realPropertyPhotos.lodges[1],
+  weekendRetreats: realPropertyPhotos.pools[0],
 };

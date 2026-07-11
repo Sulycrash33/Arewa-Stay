@@ -26,9 +26,9 @@ export default function HeroSearch() {
 
   return (
     <section className="relative w-full overflow-hidden">
-      {/* Full-bleed hero photo — real, free-license photography of Gidan Dan
-          Hausa (Kano), genuine Hausa mud-wall architecture. Sourced from
-          Pexels (free for commercial use, no attribution required). */}
+      {/* Full-bleed hero photo — real, team-submitted photography of a
+          boutique resort-style pool with arched colonnade, communicating
+          premium hospitality directly rather than via illustration/stock. */}
       <div className="relative h-[520px] md:h-[600px] w-full">
         <Image
           src={realPropertyPhotos.pools[2]}
