@@ -6,6 +6,8 @@ import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import { createClient } from '@/lib/supabase/client';
 import DagiLoader from '@/components/DagiLoader';
+import WizardProgress from '@/components/host/WizardProgress';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 const FEATURES = [
   { key: 'has_zaure' as const, title: 'Has Zaure', desc: 'Traditional entrance vestibule for receiving guests.' },
@@ -50,7 +52,7 @@ export default function CulturalFeaturesStep() {
       const { error } = await supabase.from('listings').update(values).eq('id', id);
       if (error) throw error;
       toast({ title: 'Saved' });
-      router.push(`/host/listings/${id}/pricing`);
+      router.push(`/host/listings/${id}/amenities`);
     } catch (err) {
       toast({ title: 'Save failed', description: String(err), variant: 'destructive' });
     } finally {
@@ -64,9 +66,7 @@ export default function CulturalFeaturesStep() {
 
   return (
     <main className="flex-grow px-container-margin py-stack-lg max-w-3xl mx-auto w-full flex flex-col">
-      <div className="w-full bg-surface-container-highest rounded-full h-2 mb-stack-lg">
-        <div className="bg-primary-container h-2 rounded-full" style={{ width: '60%' }} />
-      </div>
+      <WizardProgress step={3} />
 
       <div className="mb-stack-lg">
         <h2 className="font-headline-lg-mobile text-headline-lg-mobile text-m3-primary mb-stack-sm">Cultural Features</h2>
@@ -92,15 +92,15 @@ export default function CulturalFeaturesStep() {
       </div>
 
       <div className="sticky bottom-0 w-full bg-surface border-t border-surface-dim p-stack-md flex justify-between items-center mt-auto -mx-container-margin px-container-margin">
-        <button onClick={() => router.back()} className="px-6 py-3 rounded-full border border-tertiary-container text-primary-container font-label-md text-label-md hover:bg-surface-container-low transition-colors">
-          Back / Baya
+        <button onClick={() => router.push(`/host/listings/${id}/photos`)} className="px-6 py-3 rounded-full border border-tertiary-container text-primary-container font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-1">
+          <ArrowLeft className="h-4 w-4" /> Back
         </button>
         <button
           onClick={handleSave}
           disabled={saving}
-          className="px-8 py-3 rounded-full bg-primary-container text-on-primary font-label-md text-label-md hover:opacity-90 transition-opacity disabled:opacity-60"
+          className="px-8 py-3 rounded-full bg-primary-container text-on-primary font-label-md text-label-md hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center gap-1"
         >
-          {saving ? 'Saving…' : 'Next / Gaba'}
+          {saving ? 'Saving…' : <>Next <ArrowRight className="h-4 w-4" /></>}
         </button>
       </div>
     </main>

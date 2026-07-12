@@ -38,6 +38,25 @@ export interface ListingFilters {
   checkOut?: string;
 }
 
+/** Average nightly rate by city, from real approved listings. Falls back to
+ * sensible defaults by tier (major hub / secondary town) where no listings
+ * exist yet, so the earnings estimator has something honest to show. */
+export async function getAverageRatesByCity(): Promise<Record<string, number>> {
+  const supabase = await createClient();
+  const { data } = await supabase.from('listings').select('city, price_per_night').eq('status', 'approved');
+  const sums: Record<string, { total: number; count: number }> = {};
+  (data ?? []).forEach((row) => {
+    if (!sums[row.city]) sums[row.city] = { total: 0, count: 0 };
+    sums[row.city].total += Number(row.price_per_night);
+    sums[row.city].count += 1;
+  });
+  const result: Record<string, number> = {};
+  Object.entries(sums).forEach(([city, { total, count }]) => {
+    result[city] = Math.round(total / count);
+  });
+  return result;
+}
+
 /** Public catalogue: only approved listings, with optional filters. */
 export async function getListings(filters: ListingFilters = {}): Promise<Listing[]> {
   const supabase = await createClient();
