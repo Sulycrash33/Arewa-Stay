@@ -215,6 +215,18 @@ export async function submitHostVerification(userId: string, idType: 'NIN' | 'BV
   if (error) throw error;
 }
 
+/** All listings for the admin moderation queue, optionally filtered by status.
+ * Relies on the "admins see all listings" RLS policy (0006_admin_moderation.sql) —
+ * a non-admin caller will just get back their own listings per the normal policy. */
+export async function getListingsForAdmin(status?: 'pending' | 'approved' | 'rejected'): Promise<Listing[]> {
+  const supabase = await createClient();
+  let query = supabase.from('listings').select(LISTING_SELECT).order('created_at', { ascending: false });
+  if (status) query = query.eq('status', status);
+  const { data, error } = await query;
+  if (error) throw error;
+  return (data ?? []).map(shapeListing);
+}
+
 /** Update the cultural/infrastructure toggles on a listing (property wizard step). */
 export async function updateListingCulturalFeatures(listingId: string, features: {
   has_zaure?: boolean;
