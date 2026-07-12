@@ -68,3 +68,64 @@ not the wizard.
 | Growth layer | Referral program · WhatsApp notifications · town-level social proof |
 
 ---
+
+## 2026-07-12 (later same day) — Parallel-session reconciliation + rest of admin dashboard
+
+### What happened
+This session (running concurrently with the one that wrote the entry above)
+independently built the same admin-moderation gap from scratch, not having
+seen this file yet. Both sessions diverged from commit `7d37485`. Reconciled
+via `git merge` rather than discarding either side:
+
+- **Kept from the other session**: `is_admin()` SECURITY DEFINER helper
+  (`0006_admin_moderation.sql`) as the canonical admin-check pattern — more
+  robust against RLS recursion than this session's original inline
+  `exists(select ... from profiles ...)` checks. Also kept their
+  `/admin/listings` page (tabbed pending/approved/rejected via `?status=`)
+  and `ListingModerationCard.tsx` over this session's inline version —
+  genuinely better UX pattern.
+- **Kept from this session**: the admin layout's sidebar nav (covers
+  Overview/Listings/Verifications/Disputes — the other session had only
+  built Listings), and three new pages that didn't exist on either side
+  before: `/admin` (overview with live counts), `/admin/verifications`
+  (approve/revoke NIN/BVN submissions), `/admin/disputes` (open →
+  investigating → closed workflow).
+- Live database was reconciled to match: dropped this session's
+  already-applied inline-exists policies that collided by name with the
+  incoming migration, ran `0006_admin_moderation.sql` cleanly, added
+  `0007_admin_verifications.sql` extending the same `is_admin()` pattern to
+  `host_verifications` (the one table neither side's migration originally
+  covered).
+
+### Lesson for future sessions
+**Read this file's most recent entries before starting work**, especially
+before rebuilding anything that sounds like it might already exist. Check
+`git log` too — a prior session's summary in a chat may be stale if another
+session has pushed since.
+
+### Also built this session (separate from the reconciliation above)
+- Host earnings estimator on `/become-a-host` — real interactive nights
+  slider + city/bedroom selector, computed against actual average
+  `price_per_night` per city from approved listings (`getAverageRatesByCity`
+  in `lib/data.ts`), falling back to a flat default for towns with no
+  listings yet. Visual is an original stylized price-bubble cluster (Tubali
+  cards, henna-pattern background) rather than a real map embed — no Google
+  Maps API key/billing dependency needed.
+- "Join hosts across the North" trust section + "A community liaison can
+  help you get started" CTA on `/become-a-host` (Arewa-styled equivalents of
+  Airbnb's "Join millions of hosts" / co-host sections).
+- Fixed two real, previously-silent RLS bugs found while building the
+  amenities step of the listing wizard: `amenities` and `listing_amenities`
+  both had RLS enabled with **zero policies** since `0001_init.sql` — meaning
+  they've silently denied all reads/writes since the schema was created.
+  Every listing's amenities join has been returning empty this whole time
+  until this fix.
+
+### Explicitly NOT done yet
+- No rejection-reason field on listing rejection (bare status flip)
+- No email/notification to host on approve/reject
+- Admin bootstrap is still fully manual (`update profiles set role='admin'
+  where id='...'` via Supabase SQL editor — no self-service or invite flow)
+- Payments, messaging UI, ToS/Privacy pages — unchanged from the list above
+
+---
