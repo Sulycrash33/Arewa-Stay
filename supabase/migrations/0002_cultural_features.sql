@@ -85,3 +85,21 @@ create table contact_messages (
 
 alter table contact_messages enable row level security;
 create policy "anyone can submit contact messages" on contact_messages for insert with check (true);
+
+-- Migration 0006 (appended): admin RLS policies. Without these, an admin
+-- account has no permission to see or manage listings/verifications/disputes
+-- belonging to other users — the admin dashboard cannot function without them.
+create policy "admins manage all listings" on listings for all
+  using (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'admin'));
+
+create policy "admins manage all host_verifications" on host_verifications for all
+  using (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'admin'));
+
+create policy "admins manage all disputes" on disputes for all
+  using (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'admin'));
+
+create policy "admins view all bookings" on bookings for select
+  using (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'admin'));
+
+create policy "admins view all profiles" on profiles for select
+  using (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'admin'));
