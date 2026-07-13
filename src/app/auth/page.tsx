@@ -24,10 +24,15 @@ function AuthPageInner() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (tab === 'signup' && !agreedToTerms) {
+      toast({ title: 'Please agree to the Terms and Privacy Policy to continue', variant: 'destructive' });
+      return;
+    }
     setLoading(true);
     const supabase = createClient();
 
@@ -116,9 +121,26 @@ function AuthPageInner() {
             />
           </div>
 
+          {tab === 'signup' && (
+            <label className="flex items-start gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={agreedToTerms}
+                onChange={(e) => setAgreedToTerms(e.target.checked)}
+                className="mt-1 h-4 w-4 rounded border-clay-brown text-primary-container focus:ring-primary-container shrink-0"
+              />
+              <span className="font-body-md text-sm text-on-surface-variant">
+                I agree to Arewa Stay&apos;s{' '}
+                <a href="/terms" target="_blank" className="text-primary-container hover:underline">Terms of Service</a>
+                {' '}and{' '}
+                <a href="/privacy" target="_blank" className="text-primary-container hover:underline">Privacy Policy</a>.
+              </span>
+            </label>
+          )}
+
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || (tab === 'signup' && !agreedToTerms)}
             className="w-full bg-primary-container text-on-primary font-title-md text-title-md py-3 rounded-full hover:opacity-90 transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
           >
             {loading && <Loader2 className="h-4 w-4 animate-spin" />}

@@ -65,7 +65,11 @@ const Footer = () => {
              </div>
           </div>
         </div>
-        <div className="mt-8 border-t pt-6 text-center text-sm text-muted-foreground">
+        <div className="mt-8 border-t pt-6 text-center text-sm text-muted-foreground space-y-2">
+          <div className="flex justify-center gap-4">
+            <Link href="/terms" className="hover:text-foreground">Terms of Service</Link>
+            <Link href="/privacy" className="hover:text-foreground">Privacy Policy</Link>
+          </div>
           <p>{t('copyright').replace('{year}', new Date().getFullYear().toString())}</p>
         </div>
       </div>
