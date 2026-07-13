@@ -162,3 +162,30 @@ check this publication first.
 - Payments, ToS/Privacy pages — still not started
 
 ---
+
+## 2026-07-12 (later still) — Terms of Service & Privacy Policy
+
+### What was built
+`/terms` and `/privacy` — real, platform-specific legal pages, not generic
+boilerplate. Cover: the Maraba consent-first booking flow and its 12-hour
+expiry, trust tiers, how NIN/BVN submissions are actually handled (raw
+number never stored, only verification outcome), NDPR-aligned data-subject
+rights (access/correction/deletion/NDPC complaint), community liaison data
+sharing, cross-border (Niger Republic) note, and cookie use (session-only,
+no ad tracking currently). Both pages carry a visible banner flagging them
+as drafts pending review by a licensed Nigerian lawyer — this is not a
+substitute for that review, just a defensible starting point.
+
+Wired real links into the Footer (previously linked nowhere) and added a
+required "I agree to Terms and Privacy Policy" checkbox on signup — account
+creation is blocked client-side until it's checked. Payment skipped per
+explicit instruction ("forget Paystack, it's the last thing on the list").
+
+### Explicitly NOT done yet
+- No versioning/audit trail of policy changes or acceptance timestamps
+  (i.e. we don't currently record *which* version of the Terms a user
+  agreed to, just that they agreed)
+- Not yet reviewed by an actual lawyer
+- Payments still untouched intentionally
+
+---
