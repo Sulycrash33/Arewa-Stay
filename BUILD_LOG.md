@@ -129,3 +129,36 @@ session has pushed since.
 - Payments, messaging UI, ToS/Privacy pages — unchanged from the list above
 
 ---
+
+## 2026-07-12 (later still) — Messaging UI
+
+### What was built
+Real-time host-guest messaging, previously just unused schema:
+- `/dashboard/messages` — conversation list (last message preview, unread dot)
+- `/dashboard/messages/[conversationId]` — live thread. Uses a Supabase
+  Realtime `postgres_changes` channel subscription (not polling) to receive
+  new messages instantly.
+- `MessageHostButton` on listing detail pages — finds or creates a
+  `conversations` row for (listing, guest, host), then routes to the thread.
+- Small cultural touch: a row of time-of-day greeting chips above the
+  composer (morning/afternoon/evening variants) that quick-send on tap —
+  cheap to build, matches the "voice-first, low-friction" design intent from
+  the original directive without needing actual voice notes yet.
+
+### Real bug found and fixed
+The `messages` table was never added to the `supabase_realtime` publication
+(`0008_realtime_messages.sql`). Without this, `.channel().on('postgres_changes',
+...)` subscribes without error and just **never fires** — a silent failure
+that would have looked like "messaging is broken" with zero error output to
+debug from. If any *other* table gets a Realtime subscription added later,
+check this publication first.
+
+### Explicitly NOT done yet
+- No push/email notification when a new message arrives while offline
+- No voice notes (schema doesn't have `audio_url`/`duration_sec` columns —
+  the original directive's Prisma spec had these, but we're on raw
+  Postgres/Supabase, not Prisma; would need its own migration)
+- No typing indicators / online presence
+- Payments, ToS/Privacy pages — still not started
+
+---
