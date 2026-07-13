@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { getListingById, getReviewsForListing } from '@/lib/data';
 import BookingWidget from '@/components/BookingWidget';
+import MessageHostButton from '@/components/MessageHostButton';
 import { MapPin, Star, Sun, Droplets, DoorOpen, Home } from 'lucide-react';
 
 export default async function ListingDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -96,6 +97,9 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
 
         <div>
           <BookingWidget listing={listing} />
+          <div className="mt-stack-sm">
+            <MessageHostButton listingId={listing.id} hostId={listing.host_id} />
+          </div>
         </div>
       </div>
     </main>
