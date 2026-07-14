@@ -7,8 +7,19 @@ import { createClient } from '@/lib/supabase/client';
 import { useUser } from '@/hooks/use-user';
 import { ArrowLeft, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import VoiceRecorderButton from '@/components/VoiceRecorderButton';
+import VoiceMessageBubble from '@/components/VoiceMessageBubble';
 
-interface Message { id: string; conversation_id: string; sender_id: string; text: string; created_at: string; read_at: string | null; }
+interface Message {
+  id: string;
+  conversation_id: string;
+  sender_id: string;
+  text: string | null;
+  audio_url: string | null;
+  duration_sec: number | null;
+  created_at: string;
+  read_at: string | null;
+}
 
 function greetingChips(): string[] {
   const hour = new Date().getHours();
@@ -124,7 +135,11 @@ export default function ConversationThread() {
                 'max-w-[75%] rounded-2xl px-3 py-2 text-sm',
                 isMine ? 'bg-primary-container text-on-primary rounded-br-sm' : 'bg-surface-container-low text-on-surface rounded-bl-sm'
               )}>
-                {m.text}
+                {m.audio_url ? (
+                  <VoiceMessageBubble audioPath={m.audio_url} durationSec={m.duration_sec} />
+                ) : (
+                  m.text
+                )}
               </div>
             </div>
           );
@@ -146,6 +161,9 @@ export default function ConversationThread() {
       </div>
 
       <div className="flex items-center gap-2 p-4 border-t border-outline-variant/30 bg-surface">
+        {profile && (
+          <VoiceRecorderButton conversationId={conversationId} senderId={profile.id} onSent={loadThread} />
+        )}
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}

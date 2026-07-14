@@ -48,6 +48,7 @@ export interface Listing {
   max_guests: number;
   status: ListingStatus;
   no_alcohol: boolean;
+  festival_price_multiplier: number;
   women_only: boolean;
   family_only: boolean;
   has_zaure: boolean;

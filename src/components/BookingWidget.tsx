@@ -6,6 +6,8 @@ import { createClient } from '@/lib/supabase/client';
 import { useUser } from '@/hooks/use-user';
 import { useToast } from '@/hooks/use-toast';
 import type { Listing } from '@/lib/types';
+import { formatHijri, findOverlappingIslamicEvent } from '@/lib/hijri';
+import { Moon } from 'lucide-react';
 
 export default function BookingWidget({ listing }: { listing: Listing }) {
   const router = useRouter();
@@ -19,7 +21,13 @@ export default function BookingWidget({ listing }: { listing: Listing }) {
   const nights = checkIn && checkOut
     ? Math.max(0, Math.round((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / 86400000))
     : 0;
-  const total = nights * listing.price_per_night;
+
+  const festivalEvent = checkIn && checkOut
+    ? findOverlappingIslamicEvent(new Date(checkIn), new Date(checkOut))
+    : null;
+  const multiplier = festivalEvent ? (listing.festival_price_multiplier || 1) : 1;
+  const effectiveNightlyRate = listing.price_per_night * multiplier;
+  const total = nights * effectiveNightlyRate;
 
   const handleBook = async () => {
     if (!isLoggedIn || !profile) {
@@ -79,12 +87,24 @@ export default function BookingWidget({ listing }: { listing: Listing }) {
         <div className="border border-outline-variant/40 rounded-lg p-2">
           <label className="block font-label-sm text-label-sm text-on-surface-variant">Check-in</label>
           <input type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} className="w-full bg-transparent text-sm focus:outline-none" />
+          {checkIn && <span className="text-[11px] text-on-surface-variant/70">{formatHijri(new Date(checkIn))}</span>}
         </div>
         <div className="border border-outline-variant/40 rounded-lg p-2">
           <label className="block font-label-sm text-label-sm text-on-surface-variant">Check-out</label>
           <input type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} className="w-full bg-transparent text-sm focus:outline-none" />
+          {checkOut && <span className="text-[11px] text-on-surface-variant/70">{formatHijri(new Date(checkOut))}</span>}
         </div>
       </div>
+
+      {festivalEvent && (
+        <div className="flex items-start gap-2 rounded-lg bg-ochre-gold/10 border border-ochre-gold/30 p-2 mb-stack-sm">
+          <Moon className="h-4 w-4 text-ochre-gold shrink-0 mt-0.5" />
+          <p className="text-xs text-on-surface-variant">
+            This stay overlaps <strong className="text-on-surface">{festivalEvent.name}</strong>
+            {multiplier !== 1 && <> — nightly rate adjusted &times;{multiplier}</>}.
+          </p>
+        </div>
+      )}
 
       <div className="border border-outline-variant/40 rounded-lg p-2 mb-stack-md">
         <label className="block font-label-sm text-label-sm text-on-surface-variant">Guests</label>
@@ -100,7 +120,7 @@ export default function BookingWidget({ listing }: { listing: Listing }) {
 
       {nights > 0 && (
         <div className="flex justify-between text-sm text-on-surface-variant mb-stack-md">
-          <span>{listing.currency === 'NGN' ? '₦' : 'CFA'}{listing.price_per_night.toLocaleString()} × {nights} nights</span>
+          <span>{listing.currency === 'NGN' ? '₦' : 'CFA'}{effectiveNightlyRate.toLocaleString()} × {nights} nights</span>
           <span>{listing.currency === 'NGN' ? '₦' : 'CFA'}{total.toLocaleString()}</span>
         </div>
       )}

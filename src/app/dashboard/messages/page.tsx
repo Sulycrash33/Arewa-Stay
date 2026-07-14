@@ -16,7 +16,7 @@ export default async function MessagesListPage() {
       guest:profiles!conversations_guest_id_fkey ( id, full_name, avatar_url ),
       host:profiles!conversations_host_id_fkey ( id, full_name, avatar_url ),
       listing:listings ( id, title ),
-      messages ( id, text, sender_id, created_at, read_at )
+      messages ( id, text, audio_url, sender_id, created_at, read_at )
     `)
     .or(`guest_id.eq.${user.id},host_id.eq.${user.id}`)
     .order('created_at', { ascending: false });
@@ -58,7 +58,9 @@ export default async function MessagesListPage() {
                   {c.hasUnread && <span className="w-2 h-2 rounded-full bg-ochre-gold shrink-0" />}
                 </div>
                 <p className="text-xs text-on-surface-variant truncate">{c.listing?.title}</p>
-                <p className="text-sm text-on-surface-variant truncate">{c.lastMessage?.text ?? 'No messages yet'}</p>
+                <p className="text-sm text-on-surface-variant truncate">
+                  {c.lastMessage ? (c.lastMessage.audio_url ? '🎤 Voice message' : c.lastMessage.text) : 'No messages yet'}
+                </p>
               </div>
             </Link>
           ))}

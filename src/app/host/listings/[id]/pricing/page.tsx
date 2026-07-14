@@ -19,6 +19,7 @@ export default function PricingStep() {
   const [womenOnly, setWomenOnly] = useState(false);
   const [familyOnly, setFamilyOnly] = useState(false);
   const [noAlcohol, setNoAlcohol] = useState(false);
+  const [festivalMultiplier, setFestivalMultiplier] = useState('1.0');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -27,7 +28,7 @@ export default function PricingStep() {
       const supabase = createClient();
       const { data } = await supabase
         .from('listings')
-        .select('price_per_night, currency, women_only, family_only, no_alcohol')
+        .select('price_per_night, currency, women_only, family_only, no_alcohol, festival_price_multiplier')
         .eq('id', id)
         .single();
       if (data) {
@@ -36,6 +37,7 @@ export default function PricingStep() {
         setWomenOnly(data.women_only);
         setFamilyOnly(data.family_only);
         setNoAlcohol(data.no_alcohol);
+        setFestivalMultiplier(String(data.festival_price_multiplier ?? 1.0));
       }
       setLoading(false);
     }
@@ -58,6 +60,7 @@ export default function PricingStep() {
         women_only: womenOnly,
         family_only: familyOnly,
         no_alcohol: noAlcohol,
+        festival_price_multiplier: Number(festivalMultiplier) || 1.0,
       })
       .eq('id', id);
     setSaving(false);
@@ -126,6 +129,28 @@ export default function PricingStep() {
               <p className="font-label-sm text-label-sm text-on-surface-variant">Alcohol-free property</p>
             </div>
             <Switch checked={noAlcohol} onCheckedChange={setNoAlcohol} className="data-[state=checked]:bg-primary-container" />
+          </div>
+        </div>
+
+        <div className="border-t border-outline-variant/20 pt-stack-md">
+          <h3 className="font-title-md text-sm text-on-surface mb-1">Ramadan &amp; Eid pricing</h3>
+          <p className="font-label-sm text-label-sm text-on-surface-variant mb-2">
+            Optionally charge more when a stay overlaps Ramadan, Eid al-Fitr, or Eid al-Adha (calculated from
+            the Hijri calendar — dates may differ by a day from local moon-sighting announcements).
+          </p>
+          <div className="flex items-center gap-2">
+            <input
+              type="number"
+              step="0.1"
+              min="1"
+              max="3"
+              value={festivalMultiplier}
+              onChange={(e) => setFestivalMultiplier(e.target.value)}
+              className="w-24 bg-transparent border-0 border-b-2 border-clay-brown focus:ring-0 px-0 py-2 font-body-md text-on-surface"
+            />
+            <span className="font-label-sm text-label-sm text-on-surface-variant">
+              &times; nightly price (1.0 = no change, 1.3 = +30%)
+            </span>
           </div>
         </div>
       </div>
