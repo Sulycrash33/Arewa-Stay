@@ -245,3 +245,82 @@ placeholder mic icon:
   still not started, deferred per instruction
 
 ---
+
+## 2026-07-12 (later still) — The five remaining roadmap items
+
+Before this, checked with the user whether these were already done — they
+weren't (verified via direct `grep` against the codebase, not memory) —
+worth normalizing that habit: **verify against code/DB before asserting
+something exists, in a session this long.**
+
+### 1. Verified-host badge
+Real, not decorative: `profiles.identity_verified` (new boolean column) is
+set automatically by `admin/VerificationActions.tsx` when an admin approves
+or revokes a verification. Chose a denormalized flag on `profiles` (already
+publicly readable) over exposing `host_verifications` rows publicly, which
+would have needed new RLS surface and could leak `liaison_contact`.
+`VerifiedHostBadge` shown on `PropertyCard` when the flag is true. Needed a
+new `admins update any profile` RLS policy — previously only self-update
+existed, so admin approval couldn't have written this flag without it.
+
+### 2. Two-way reviews
+`reviews.reviewee_id` (new column, NOT NULL, table was empty so no backfill
+needed) records who the review is about — previously reviews only ever
+implicitly meant guest-reviewing-host via `listing_id`. Added
+`reviews_one_per_author_per_booking` unique constraint. New
+`mark_completed_bookings()` function (mirrors `expire_stale_bookings()`)
+flips `confirmed` bookings past checkout into `completed`, called
+opportunistically (not via cron) whenever `/dashboard/bookings` loads.
+
+**Real gap found while building this: there was no guest-facing bookings
+list at all.** `/dashboard/bookings` didn't exist — built it now, showing
+both "as guest" and "as host" bookings, with review/dispute/message actions
+gated by actual eligibility (booking status, checkout date, whether this
+person already reviewed this booking). `/bookings/[id]/rate` is the actual
+review form, auto-determines who's being reviewed based on viewer role.
+
+### 3. Guest/host-facing dispute creation
+`/bookings/[id]/dispute` — a real form insert into `disputes`. Previously
+**only the admin side existed** (the moderation queue built earlier) — there
+was no way for an actual guest or host to create the dispute an admin would
+review. Reachable from the new bookings hub.
+
+### 4. NIN/BVN verification — integration boundary, not a real check
+`lib/identity-verification.ts`. Explicitly documented as NOT calling any
+real government/bank system — that needs a paid provider account (Youverify,
+Paystack Identity, or direct NIBSS) and API key, the same external-credential
+blocker as Paystack payments. What it does do: validates input shape (11
+digits), and is structured so that when real credentials exist, swapping the
+function body for a real API call requires touching *one file*, not
+searching the codebase for scattered verification logic. Actually wired into
+`onboarding/identity/page.tsx` (previously that page just inserted a row
+without calling anything).
+
+### 5. Community Liaison Trust Network — formalized
+New `liaisons` table (name, phone, state, cities covered, active flag) +
+`/admin/liaisons` management page + a real assign-a-liaison dropdown
+(`AssignLiaison.tsx`) on the verifications queue that writes to the new
+`host_verifications.liaison_id` column (and keeps the legacy `liaison_name`/
+`liaison_contact` text columns in sync for the existing display code on
+`/dashboard/host/verification`). Previously those text columns existed but
+**nothing in the app ever populated them** — this was pure unused schema
+until now.
+
+### Real bug caught mid-build (JSX, not SQL, this time)
+Writing the verified-badge JSX in `PropertyCard.tsx`, a conditional
+(`{condition && <Badge />}`) was left with a dangling unclosed brace before
+the closing `</div>` — would have been a hard build failure. Caught by the
+routine full-build check before pushing, not by inspection; another point
+in favor of always doing that check rather than trusting a diff read-through.
+
+### Explicitly NOT done yet
+- NIN/BVN still isn't *actually* verified against anything real
+- No email/SMS notification to a liaison when assigned (admin has to tell
+  them manually for now)
+- No liaison-facing login/dashboard of their own — assignment is
+  admin-only, liaisons don't have accounts
+- Review moderation (an admin ability to remove a fake/abusive review)
+  doesn't exist
+- USSD booking fallback — still not started, out of scope per instruction
+
+---
