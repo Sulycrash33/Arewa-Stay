@@ -189,3 +189,59 @@ explicit instruction ("forget Paystack, it's the last thing on the list").
 - Payments still untouched intentionally
 
 ---
+
+## 2026-07-12 (later still) — Hijri calendar + voice-note messaging
+
+Two of the four original "moat" features; USSD booking fallback and the
+Community Liaison Trust Network formalization were explicitly deferred by
+instruction ("remove ussd booking, only the hijri aware calendar and voice
+note messaging").
+
+### Hijri-aware calendar
+`src/lib/hijri.ts` — real Gregorian↔Hijri conversion using the tabular
+(arithmetic) Islamic calendar algorithm. No external API/package dependency,
+deterministic. Clearly documented (in code and in the pricing-step UI copy)
+as a **calculated approximation** — it can differ by a day from a given
+country's official moon-sighting announcement for Ramadan/Eid, and the UI
+says so rather than presenting it as religious authority.
+
+Wired into:
+- `BookingWidget` — shows the Hijri date under each Gregorian check-in/
+  check-out field; detects if the stay overlaps Ramadan/Eid al-Fitr/Eid
+  al-Adha and applies the listing's `festival_price_multiplier` to the total,
+  with a visible note when it's in effect.
+- Pricing wizard step — new host-facing control to set that multiplier
+  (default 1.0 = no change; e.g. 1.3 = +30% during festival periods).
+- New column: `listings.festival_price_multiplier` (`0009_festival_pricing.sql`).
+
+### Voice-note messaging
+Real recording (browser `MediaRecorder` API) → upload → playback, not a
+placeholder mic icon:
+- `VoiceRecorderButton` — records, uploads to a new **private** Storage
+  bucket (`voice-notes`), inserts a `messages` row with `audio_url` set
+  instead of `text`.
+- `VoiceMessageBubble` — generates a signed URL (bucket is private, unlike
+  the public `listing-photos` bucket) and renders an `<audio>` player.
+- Storage RLS follows a path convention (`{conversation_id}/{message_id}.webm`)
+  and checks the requester is one of that conversation's two participants —
+  same access-control shape as the rest of the app, not security-through-
+  obscurity via an unguessable filename.
+- `messages.audio_url` / `messages.duration_sec` columns added
+  (`0010_voice_notes.sql`) — these were flagged as missing in the messaging
+  entry above; now they exist.
+- Conversations list shows "🎤 Voice message" instead of blank/undefined
+  text when the last message in a thread is a voice note.
+
+### Explicitly NOT done yet
+- No waveform visualization during recording/playback — plain browser
+  `<audio controls>` element
+- No max-length cap on a recording (a very long voice note is allowed;
+  worth adding a client-side limit, e.g. 2 minutes, later)
+- Festival multiplier is a flat rate for the whole stay if *any* night
+  overlaps a festival — not prorated per-night (e.g. a 10-night stay with
+  1 night inside Eid charges the festival rate for all 10 nights, not just
+  that 1). Simpler to reason about for a host, but worth revisiting.
+- Community Liaison Trust Network formalization and USSD booking fallback —
+  still not started, deferred per instruction
+
+---
