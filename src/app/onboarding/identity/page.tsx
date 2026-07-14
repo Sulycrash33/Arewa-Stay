@@ -7,6 +7,7 @@ import { useUser } from '@/hooks/use-user';
 import { createClient } from '@/lib/supabase/client';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { verifyIdentity } from '@/lib/identity-verification';
 
 export default function IdentityVerificationPage() {
   const router = useRouter();
@@ -22,19 +23,25 @@ export default function IdentityVerificationPage() {
       toast({ title: 'Please log in first', variant: 'destructive' });
       return;
     }
-    if (idNumber.replace(/\D/g, '').length !== 11) {
-      toast({ title: 'Enter a valid 11-digit number', variant: 'destructive' });
-      return;
-    }
     setSubmitting(true);
     try {
+      const result = await verifyIdentity(idType, idNumber);
+
+      if (result.status === 'invalid_format') {
+        toast({ title: result.reason, variant: 'destructive' });
+        setSubmitting(false);
+        return;
+      }
+
       // We deliberately never persist the raw NIN/BVN — only that a
-      // submission was made, pending review or a licensed verifier
-      // integration (e.g. Paystack Identity, Youverify, NIBSS).
+      // submission was made, and the outcome of verification (currently
+      // always manual review — see lib/identity-verification.ts for why).
       const supabase = createClient();
       const { error } = await supabase.from('host_verifications').insert({
         user_id: profile.id,
-        notes: `${idType} submitted for verification`,
+        notes: result.status === 'verified'
+          ? `${idType} verified automatically via ${result.provider}`
+          : `${idType} submitted — ${result.reason}`,
         status: 'pending',
       });
       if (error) throw error;

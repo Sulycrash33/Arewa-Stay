@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Check, X } from 'lucide-react';
 
-export default function VerificationActions({ verificationId }: { verificationId: string }) {
+export default function VerificationActions({ verificationId, userId }: { verificationId: string; userId: string }) {
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState<'approve' | 'revoke' | null>(null);
@@ -18,6 +18,15 @@ export default function VerificationActions({ verificationId }: { verificationId
       .from('host_verifications')
       .update({ status: action === 'approve' ? 'approved' : 'revoked' })
       .eq('id', verificationId);
+
+    if (!error) {
+      // Denormalized flag PropertyCard/listing pages read — avoids exposing
+      // host_verifications rows (with liaison contact info) publicly.
+      await supabase
+        .from('profiles')
+        .update({ identity_verified: action === 'approve' })
+        .eq('id', userId);
+    }
     setLoading(null);
 
     if (error) {

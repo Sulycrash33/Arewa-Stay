@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu, User, MessageSquare, ShieldCheck, LogOut, Globe, Search, Heart } from 'lucide-react';
+import { Menu, User, MessageSquare, ShieldCheck, LogOut, Globe, Search, Heart, Calendar } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import {
   DropdownMenu,
@@ -91,6 +91,7 @@ const Header = () => {
             <DropdownMenuLabel>{profile?.full_name || 'My Account'}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild><Link href="/dashboard/messages"><MessageSquare className="mr-2 h-4 w-4" />Messages</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link href="/dashboard/bookings"><Calendar className="mr-2 h-4 w-4" />My Bookings</Link></DropdownMenuItem>
             <DropdownMenuItem asChild><Link href="/dashboard/profile"><User className="mr-2 h-4 w-4" />Profile</Link></DropdownMenuItem>
             <DropdownMenuItem asChild><Link href="/favorites"><Heart className="mr-2 h-4 w-4" />Saved stays</Link></DropdownMenuItem>
             {profile?.role === 'admin' && (

@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import VerificationActions from '@/components/admin/VerificationActions';
+import AssignLiaison from '@/components/admin/AssignLiaison';
 import { ShieldCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -14,10 +15,12 @@ export default async function AdminVerificationsPage() {
   const { data: verifications } = await supabase
     .from('host_verifications')
     .select(`
-      id, status, notes, liaison_name, liaison_contact, created_at,
+      id, status, notes, liaison_name, liaison_contact, liaison_id, created_at, user_id,
       user:profiles!host_verifications_user_id_fkey ( full_name, phone, host_tier )
     `)
     .order('created_at', { ascending: true });
+
+  const { data: liaisons } = await supabase.from('liaisons').select('id, full_name, phone').eq('active', true);
 
   const pending = (verifications ?? []).filter((v) => v.status === 'pending');
   const others = (verifications ?? []).filter((v) => v.status !== 'pending');
@@ -32,10 +35,16 @@ export default async function AdminVerificationsPage() {
         </div>
         <p className="text-xs text-on-surface-variant mt-1">{v.notes}</p>
         <p className="text-xs text-on-surface-variant">{v.user?.phone ?? 'No phone on file'} &middot; Current tier: {v.user?.host_tier}</p>
+        {v.liaison_name && <p className="text-xs text-primary-container mt-1">Liaison: {v.liaison_name} ({v.liaison_contact})</p>}
+        {v.status === 'pending' && (liaisons ?? []).length > 0 && (
+          <div className="mt-2 w-56">
+            <AssignLiaison verificationId={v.id} liaisons={liaisons!} currentLiaisonId={v.liaison_id} />
+          </div>
+        )}
       </div>
       {v.status === 'pending' && (
         <div className="sm:w-56">
-          <VerificationActions verificationId={v.id} />
+          <VerificationActions verificationId={v.id} userId={v.user_id} />
         </div>
       )}
     </div>

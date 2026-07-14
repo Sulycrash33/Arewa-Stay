@@ -17,6 +17,7 @@ export interface Profile {
   host_tier: HostTier;
   completed_stays: number;
   avg_response_minutes: number | null;
+  identity_verified: boolean;
 }
 
 export interface Amenity {
@@ -62,7 +63,7 @@ export interface Listing {
   amenities?: Amenity[];
   special_packages?: SpecialPackage[];
   event_options?: string[];
-  host?: Pick<Profile, 'id' | 'full_name' | 'avatar_url' | 'languages'>;
+  host?: Pick<Profile, 'id' | 'full_name' | 'avatar_url' | 'languages' | 'identity_verified' | 'host_tier'>;
   avg_rating?: number;
   review_count?: number;
 }
@@ -72,6 +73,7 @@ export interface Review {
   listing_id: string;
   booking_id: string | null;
   author_id: string;
+  reviewee_id: string;
   rating: number;
   comment: string;
   created_at: string;

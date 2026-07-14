@@ -9,7 +9,7 @@ const LISTING_SELECT = `
   listing_amenities ( amenities ( id, name, icon ) ),
   special_packages ( id, type, name, description ),
   event_options ( option_text ),
-  host:profiles!listings_host_id_fkey ( id, full_name, avatar_url, languages )
+  host:profiles!listings_host_id_fkey ( id, full_name, avatar_url, languages, identity_verified, host_tier )
 `;
 
 function shapeListing(row: any): Listing {

@@ -4,6 +4,7 @@ import type { Listing } from '@/lib/types';
 import { MapPin, Star } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
 import SaveButton from './SaveButton';
+import VerifiedHostBadge from './VerifiedHostBadge';
 
 import { allPropertyPhotos } from '@/lib/stock-photos';
 
@@ -90,6 +91,7 @@ const PropertyCard = ({ property }: { property: Listing }) => {
           <MapPin className="w-4 h-4 mr-1.5 flex-shrink-0 text-clay-brown" />
           <span>{property.city}, {property.state}</span>
         </div>
+        {property.host?.identity_verified && <VerifiedHostBadge className="mt-1" />}
       </div>
 
       <div className="p-4 flex justify-between items-center border-t border-outline-variant/30">

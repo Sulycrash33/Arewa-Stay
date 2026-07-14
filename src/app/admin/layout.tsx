@@ -1,13 +1,14 @@
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
-import { LayoutDashboard, Home, ShieldCheck, AlertTriangle } from 'lucide-react';
+import { LayoutDashboard, Home, ShieldCheck, AlertTriangle, Handshake } from 'lucide-react';
 
 const NAV = [
   { href: '/admin', label: 'Overview', icon: LayoutDashboard },
   { href: '/admin/listings', label: 'Listings', icon: Home },
   { href: '/admin/verifications', label: 'Verifications', icon: ShieldCheck },
   { href: '/admin/disputes', label: 'Disputes', icon: AlertTriangle },
+  { href: '/admin/liaisons', label: 'Liaisons', icon: Handshake },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
