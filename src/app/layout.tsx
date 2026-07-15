@@ -35,12 +35,26 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  // Inline script runs before hydration to set <html lang> from the persisted
+  // language choice, avoiding a flash of the wrong language attribute for
+  // screen readers. LanguageContext (client) keeps React state in sync after.
+  const setLangScript = `(function(){try{var l=localStorage.getItem('arewa_language');if(l&&['en','ha','fr'].includes(l))document.documentElement.lang=l;}catch(e){}})()`;
+
   return (
     <html lang="en" className={cn(hanken.variable, geist.variable)}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: setLangScript }} />
+      </head>
       <body className={cn('font-body-md antialiased min-h-screen flex flex-col bg-background text-foreground')}>
         <LanguageProvider>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:rounded-md focus:bg-m3-primary focus:px-4 focus:py-2 focus:text-on-primary"
+          >
+            Skip to content
+          </a>
           <Header />
-          <main className="flex-grow">{children}</main>
+          <main id="main-content" className="flex-grow">{children}</main>
           <Footer />
           <Toaster />
         </LanguageProvider>

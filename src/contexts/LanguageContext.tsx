@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useState, useContext, useEffect, useMemo } from 'react';
+import React, { createContext, useState, useContext, useEffect, useMemo, useCallback } from 'react';
 import en from '@/locales/en.json';
 import ha from '@/locales/ha.json';
 import fr from '@/locales/fr.json';
@@ -31,16 +31,21 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     localStorage.setItem('arewa_language', lang);
     setLanguageState(lang);
   };
-  
-  const t = (key: string): string => {
+
+  const t = useCallback((key: string): string => {
     return translations[language][key as keyof typeof translations[Language]] || key;
-  };
+  }, [language]);
+
+  // Keep <html lang> in sync so screen readers announce in the right language.
+  useEffect(() => {
+    if (typeof document !== 'undefined') document.documentElement.lang = language;
+  }, [language]);
 
   const value = useMemo(() => ({
     language,
     setLanguage,
     t,
-  }), [language]);
+  }), [language, t]);
 
   return (
     <LanguageContext.Provider value={value}>

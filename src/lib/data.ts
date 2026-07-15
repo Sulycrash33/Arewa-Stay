@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import type { Listing, Review, Booking } from '@/lib/types';
+import type { Listing, Review, Booking, Amenity, SpecialPackage, Profile } from '@/lib/types';
 
 export { arewaStates, arewaCities, allRegions } from '@/lib/constants';
 
@@ -12,15 +12,33 @@ const LISTING_SELECT = `
   host:profiles!listings_host_id_fkey ( id, full_name, avatar_url, languages, identity_verified, host_tier )
 `;
 
-function shapeListing(row: any): Listing {
+/** Raw shape returned by Supabase for the LISTING_SELECT query above.
+ *  Mirrors the joined nested structure so shapeListing() stays type-safe. */
+interface RawListingImage { url: string; sort_order: number }
+interface RawListingAmenity { amenities: Amenity }
+interface RawEventOption { option_text: string }
+interface RawListingHost extends Pick<Profile, 'id' | 'full_name' | 'avatar_url' | 'languages' | 'identity_verified' | 'host_tier'> {}
+
+interface RawListingRow extends Omit<Listing, 'images' | 'amenities' | 'special_packages' | 'event_options' | 'host'> {
+  listing_images: RawListingImage[] | null;
+  listing_amenities: RawListingAmenity[] | null;
+  special_packages: SpecialPackage[] | null;
+  event_options: RawEventOption[] | null;
+  host: RawListingHost | null;
+}
+
+function shapeListing(row: RawListingRow): Listing {
+  const { listing_images, listing_amenities, special_packages, event_options, host, ...rest } = row;
   return {
-    ...row,
-    images: (row.listing_images ?? [])
-      .sort((a: any, b: any) => a.sort_order - b.sort_order)
-      .map((i: any) => i.url),
-    amenities: (row.listing_amenities ?? []).map((la: any) => la.amenities),
-    special_packages: row.special_packages ?? [],
-    event_options: (row.event_options ?? []).map((e: any) => e.option_text),
+    ...rest,
+    images: (listing_images ?? [])
+      .slice()
+      .sort((a, b) => a.sort_order - b.sort_order)
+      .map((i) => i.url),
+    amenities: (listing_amenities ?? []).map((la) => la.amenities),
+    special_packages: special_packages ?? [],
+    event_options: (event_options ?? []).map((e) => e.option_text),
+    host: host ?? undefined,
   };
 }
 

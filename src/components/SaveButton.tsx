@@ -1,28 +1,45 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Heart } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { useUser } from '@/hooks/use-user';
+import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
 export default function SaveButton({ listingId }: { listingId: string }) {
   const { profile, isLoggedIn } = useUser();
   const router = useRouter();
+  const { toast } = useToast();
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Reuse a single Supabase client instance across effect + toggle instead
+  // of creating a new one on every call — the browser client is cheap but
+  // there's no reason to allocate repeatedly.
+  const supabaseRef = useRef<ReturnType<typeof createClient> | null>(null);
+  const getSupabase = () => {
+    if (!supabaseRef.current) supabaseRef.current = createClient();
+    return supabaseRef.current;
+  };
+
   useEffect(() => {
     if (!profile) return;
-    const supabase = createClient();
+    const supabase = getSupabase();
+    let cancelled = false;
     supabase
       .from('favorites')
       .select('listing_id')
       .eq('user_id', profile.id)
       .eq('listing_id', listingId)
       .maybeSingle()
-      .then(({ data }) => setSaved(!!data));
+      .then(({ data }) => {
+        if (!cancelled) setSaved(!!data);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [profile, listingId]);
 
   const toggle = async (e: React.MouseEvent) => {
@@ -35,16 +52,38 @@ export default function SaveButton({ listingId }: { listingId: string }) {
     }
 
     setLoading(true);
-    const supabase = createClient();
+    const supabase = getSupabase();
+    const wasSaved = saved;
 
-    if (saved) {
-      await supabase.from('favorites').delete().eq('user_id', profile.id).eq('listing_id', listingId);
-      setSaved(false);
-    } else {
-      await supabase.from('favorites').insert({ user_id: profile.id, listing_id: listingId });
-      setSaved(true);
+    // Optimistic update — revert on error.
+    setSaved(!wasSaved);
+
+    try {
+      if (wasSaved) {
+        const { error } = await supabase
+          .from('favorites')
+          .delete()
+          .eq('user_id', profile.id)
+          .eq('listing_id', listingId);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from('favorites')
+          .insert({ user_id: profile.id, listing_id: listingId });
+        if (error) throw error;
+      }
+    } catch (err) {
+      // Revert the optimistic flip and surface the failure.
+      setSaved(wasSaved);
+      console.error('Failed to toggle favorite:', err);
+      toast({
+        title: 'Could not save',
+        description: 'Something went wrong. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
