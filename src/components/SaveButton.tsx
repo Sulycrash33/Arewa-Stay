@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Heart } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
@@ -10,20 +10,22 @@ import { cn } from '@/lib/utils';
 export default function SaveButton({ listingId }: { listingId: string }) {
   const { profile, isLoggedIn } = useUser();
   const router = useRouter();
+  const supabase = useMemo(() => createClient(), []);
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!profile) return;
-    const supabase = createClient();
     supabase
       .from('favorites')
       .select('listing_id')
       .eq('user_id', profile.id)
       .eq('listing_id', listingId)
       .maybeSingle()
-      .then(({ data }) => setSaved(!!data));
-  }, [profile, listingId]);
+      .then(({ data, error }) => {
+        if (!error) setSaved(!!data);
+      });
+  }, [profile, listingId, supabase]);
 
   const toggle = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -35,16 +37,22 @@ export default function SaveButton({ listingId }: { listingId: string }) {
     }
 
     setLoading(true);
-    const supabase = createClient();
+    const previousSaved = saved;
+    const nextSaved = !saved;
+    setSaved(nextSaved);
 
-    if (saved) {
-      await supabase.from('favorites').delete().eq('user_id', profile.id).eq('listing_id', listingId);
-      setSaved(false);
-    } else {
-      await supabase.from('favorites').insert({ user_id: profile.id, listing_id: listingId });
-      setSaved(true);
+    try {
+      const { error } = previousSaved
+        ? await supabase.from('favorites').delete().eq('user_id', profile.id).eq('listing_id', listingId)
+        : await supabase.from('favorites').insert({ user_id: profile.id, listing_id: listingId });
+
+      if (error) throw error;
+    } catch (error) {
+      setSaved(previousSaved);
+      console.error('Could not update favorite', error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (

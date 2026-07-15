@@ -39,8 +39,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={cn(hanken.variable, geist.variable)}>
       <body className={cn('font-body-md antialiased min-h-screen flex flex-col bg-background text-foreground')}>
         <LanguageProvider>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-primary-container focus:px-4 focus:py-2 focus:text-on-primary"
+          >
+            Skip to content
+          </a>
           <Header />
-          <main className="flex-grow">{children}</main>
+          <div id="main-content" className="flex-grow">{children}</div>
           <Footer />
           <Toaster />
         </LanguageProvider>

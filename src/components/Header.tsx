@@ -171,11 +171,11 @@ const Header = () => {
           scrolled ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none absolute'
         )}
       >
-        <span className="pl-4 pr-3 font-label-md text-label-md text-on-surface">Anywhere</span>
+        <span className="pl-4 pr-3 font-label-md text-label-md text-on-surface">{t('anywhere')}</span>
         <span className="h-4 w-px bg-outline-variant/40" />
-        <span className="px-3 font-label-md text-label-md text-on-surface-variant">Any week</span>
+        <span className="px-3 font-label-md text-label-md text-on-surface-variant">{t('anyWeek')}</span>
         <span className="h-4 w-px bg-outline-variant/40" />
-        <span className="pl-3 pr-1 font-label-md text-label-md text-on-surface-variant">Add guests</span>
+        <span className="pl-3 pr-1 font-label-md text-label-md text-on-surface-variant">{t('addGuests')}</span>
         <span className="bg-primary-container text-on-primary rounded-full h-8 w-8 flex items-center justify-center shrink-0">
           <Search className="h-3.5 w-3.5" />
         </span>

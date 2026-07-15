@@ -1,13 +1,13 @@
 'use client';
 
-import React, { createContext, useState, useContext, useEffect, useMemo } from 'react';
+import React, { createContext, useState, useContext, useCallback, useEffect, useMemo } from 'react';
 import en from '@/locales/en.json';
 import ha from '@/locales/ha.json';
 import fr from '@/locales/fr.json';
 
 type Language = 'en' | 'ha' | 'fr';
 
-const translations = { en, ha, fr };
+const translations: Record<Language, Record<string, string>> = { en, ha, fr };
 
 interface LanguageContextType {
   language: Language;
@@ -27,20 +27,20 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   }, []);
 
-  const setLanguage = (lang: Language) => {
+  const setLanguage = useCallback((lang: Language) => {
     localStorage.setItem('arewa_language', lang);
     setLanguageState(lang);
-  };
+  }, []);
   
-  const t = (key: string): string => {
-    return translations[language][key as keyof typeof translations[Language]] || key;
-  };
+  const t = useCallback((key: string): string => {
+    return translations[language][key] || key;
+  }, [language]);
 
   const value = useMemo(() => ({
     language,
     setLanguage,
     t,
-  }), [language]);
+  }), [language, setLanguage, t]);
 
   return (
     <LanguageContext.Provider value={value}>
