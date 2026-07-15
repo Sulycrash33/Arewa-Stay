@@ -24,7 +24,7 @@ export default async function AdminDisputesPage() {
     <main className="p-container-margin">
       <h1 className="font-headline-lg text-headline-lg text-m3-primary mb-2">Disputes</h1>
       <p className="font-body-md text-on-surface-variant mb-stack-lg">
-        {(disputes ?? []).filter((d) => d.status === 'open').length} open
+        {(disputes ?? []).filter((d: { status?: string }) => d.status === 'open').length} open
       </p>
 
       <div className="space-y-stack-sm">

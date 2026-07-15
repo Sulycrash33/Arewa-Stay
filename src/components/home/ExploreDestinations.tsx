@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
 import { allRegions } from '@/lib/constants';
 import { cityLandmarks, realPropertyPhotos } from '@/lib/stock-photos';
+import { getTranslations } from '@/lib/i18n';
 
 const FEATURED_CITIES = [
   'Abuja', 'Kano', 'Kaduna', 'Zaria', 'Katsina', 'Sokoto', 'Birnin Kebbi', 'Gusau',
@@ -12,12 +13,14 @@ const FEATURED_CITIES = [
 ];
 
 export default async function ExploreDestinations() {
+  const t = await getTranslations();
   const supabase = await createClient();
   const { data } = await supabase.from('listings').select('city').eq('status', 'approved');
-  const counts = (data ?? []).reduce<Record<string, number>>((acc, row) => {
+  const rows = (data ?? []) as Array<{ city: string }>;
+  const counts = rows.reduce((acc: Record<string, number>, row: { city: string }) => {
     acc[row.city] = (acc[row.city] ?? 0) + 1;
     return acc;
-  }, {});
+  }, {} as Record<string, number>);
 
   const totalTowns = allRegions.reduce((sum, g) => sum + g.cities.length, 0);
 
@@ -25,8 +28,8 @@ export default async function ExploreDestinations() {
     <section className="container mx-auto px-4 py-stack-lg">
       <div className="flex items-end justify-between mb-stack-md">
         <div>
-          <span className="font-label-sm text-label-sm text-ochre-gold uppercase tracking-widest">Explore by Destination</span>
-          <h2 className="font-headline-lg text-headline-lg text-m3-primary mt-1">Discover iconic cities and hidden gems.</h2>
+          <span className="font-label-sm text-label-sm text-ochre-gold uppercase tracking-widest">{t.exploreByDestination}</span>
+          <h2 className="font-headline-lg text-headline-lg text-m3-primary mt-1">{t.destinationsSubtitle}</h2>
           <p className="font-body-md text-sm text-on-surface-variant mt-1">
             {totalTowns}+ towns across Northern Nigeria &amp; Niger Republic — every home deserves a guest.
           </p>

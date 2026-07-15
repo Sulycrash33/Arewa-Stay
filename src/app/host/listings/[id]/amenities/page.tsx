@@ -28,7 +28,7 @@ export default function AmenitiesStep() {
         supabase.from('listing_amenities').select('amenity_id').eq('listing_id', id),
       ]);
       setAmenities(all ?? []);
-      setSelected(new Set((current ?? []).map((r) => r.amenity_id)));
+      setSelected(new Set((current ?? []).map((r: { amenity_id: number }) => r.amenity_id)));
       setLoading(false);
     }
     load();

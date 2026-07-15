@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import { Users, Star } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const TESTIMONIALS = [
   { quote: 'Our wedding guests stayed in one place and everything was perfect. The host was amazing!', name: 'Fatima A.', location: 'Kaduna' },
@@ -8,17 +11,18 @@ const TESTIMONIALS = [
 ];
 
 export function BrandStory() {
+  const { t } = useLanguage();
   return (
     <section className="container mx-auto px-4 py-stack-lg">
       <div className="grid md:grid-cols-2 gap-stack-lg items-center">
         <div>
-          <span className="font-label-sm text-label-sm text-ochre-gold uppercase tracking-widest">Our Story</span>
-          <h2 className="font-headline-lg text-headline-lg text-m3-primary mt-1 mb-stack-sm">Rooted in Arewa.</h2>
+          <span className="font-label-sm text-label-sm text-ochre-gold uppercase tracking-widest">{t('storyTitle')}</span>
+          <h2 className="font-headline-lg text-headline-lg text-m3-primary mt-1 mb-stack-sm">{t('storyTitle')}</h2>
           <p className="font-body-md text-on-surface-variant mb-stack-md">
-            Hospitality has always been part of our culture. Arewa Stay was built to connect travelers with trusted homes, boutique hotels, and authentic experiences across Northern Nigeria and Niger Republic.
+            {t('storyBody')}
           </p>
           <Link href="/about" className="inline-block bg-primary-container text-on-primary font-title-md text-sm px-6 py-2.5 rounded-full hover:opacity-90 transition-all">
-            Learn more about us
+            {t('learnMoreAboutUs')}
           </Link>
         </div>
         <div className="henna-pattern rounded-tubali aspect-video bg-primary-container/5 border border-outline-variant/20" />
@@ -28,6 +32,7 @@ export function BrandStory() {
 }
 
 export function HostCTABanner() {
+  const { t } = useLanguage();
   return (
     <section className="container mx-auto px-4 py-stack-md">
       <div className="rounded-tubali bg-primary-container overflow-hidden relative">
@@ -38,14 +43,14 @@ export function HostCTABanner() {
               <Users className="h-6 w-6 text-white" />
             </div>
             <div>
-              <span className="font-label-sm text-label-sm text-white/70 uppercase tracking-wider">Become a Host</span>
+              <span className="font-label-sm text-label-sm text-white/70 uppercase tracking-wider">{t('becomeAHost')}</span>
               <h2 className="font-headline-lg-mobile text-headline-lg-mobile text-white leading-tight">
-                Open your doors to travelers from across West Africa.
+                {t('hostCtaTitle')}
               </h2>
             </div>
           </div>
           <Link href="/become-a-host" className="bg-secondary-fixed-dim text-on-secondary-fixed font-title-md text-sm px-6 py-2.5 rounded-full hover:opacity-90 transition-all whitespace-nowrap">
-            Start Hosting
+            {t('startHosting')}
           </Link>
         </div>
       </div>
@@ -54,11 +59,12 @@ export function HostCTABanner() {
 }
 
 export function Testimonials() {
+  const { t } = useLanguage();
   return (
     <section className="container mx-auto px-4 py-stack-lg">
       <div className="mb-stack-md">
-        <span className="font-label-sm text-label-sm text-ochre-gold uppercase tracking-widest">What Guests Say</span>
-        <h2 className="font-headline-lg text-headline-lg text-m3-primary mt-1">Real people. Real experiences.</h2>
+        <span className="font-label-sm text-label-sm text-ochre-gold uppercase tracking-widest">{t('testimonialsTitle')}</span>
+        <h2 className="font-headline-lg text-headline-lg text-m3-primary mt-1">{t('testimonialsSubtitle')}</h2>
       </div>
       <div className="grid md:grid-cols-3 gap-stack-md">
         {TESTIMONIALS.map((t) => (

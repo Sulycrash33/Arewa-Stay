@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { MapPinned, Clock, Landmark, PartyPopper, UtensilsCrossed } from 'lucide-react';
+import { getTranslations } from '@/lib/i18n';
 
 const GUIDES = [
   { icon: MapPinned, title: 'Hidden Gems of Kano', desc: 'Places you need to see.' },
@@ -9,7 +10,8 @@ const GUIDES = [
   { icon: UtensilsCrossed, title: 'Northern Cuisine Worth Traveling For', desc: 'Flavors of the North.' },
 ];
 
-export default function TravelGuides() {
+export default async function TravelGuides() {
+  const t = await getTranslations();
   return (
     <section className="container mx-auto px-4 py-stack-lg">
       <div className="flex items-end justify-between mb-stack-md">
@@ -18,7 +20,7 @@ export default function TravelGuides() {
           <h2 className="font-headline-lg text-headline-lg text-m3-primary mt-1">Travel guides, culture, and inspiration.</h2>
         </div>
         <Link href="/about" className="hidden md:flex items-center gap-1 font-label-md text-label-md text-primary-container hover:underline shrink-0">
-          View all stories →
+          {t.viewAllStories} →
         </Link>
       </div>
 

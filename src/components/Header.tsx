@@ -52,10 +52,12 @@ const Header = () => {
     { href: '/contact', label: t('contact') },
   ];
 
+  const languageLabel = language === 'en' ? 'English' : language === 'ha' ? 'Hausa' : 'Français';
+
   const languageMenu = (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button aria-label="Language" className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant">
+        <button aria-label={t('language')} className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant">
           <Globe className="h-5 w-5" />
         </button>
       </DropdownMenuTrigger>
@@ -88,21 +90,21 @@ const Header = () => {
       <DropdownMenuContent align="end" className="w-60">
         {isLoggedIn ? (
           <>
-            <DropdownMenuLabel>{profile?.full_name || 'My Account'}</DropdownMenuLabel>
+            <DropdownMenuLabel>{profile?.full_name || t('myAccount')}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild><Link href="/dashboard/messages"><MessageSquare className="mr-2 h-4 w-4" />Messages</Link></DropdownMenuItem>
-            <DropdownMenuItem asChild><Link href="/dashboard/bookings"><Calendar className="mr-2 h-4 w-4" />My Bookings</Link></DropdownMenuItem>
-            <DropdownMenuItem asChild><Link href="/dashboard/profile"><User className="mr-2 h-4 w-4" />Profile</Link></DropdownMenuItem>
-            <DropdownMenuItem asChild><Link href="/favorites"><Heart className="mr-2 h-4 w-4" />Saved stays</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link href="/dashboard/messages"><MessageSquare className="mr-2 h-4 w-4" />{t('messages')}</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link href="/dashboard/bookings"><Calendar className="mr-2 h-4 w-4" />{t('myBookings')}</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link href="/dashboard/profile"><User className="mr-2 h-4 w-4" />{t('profile')}</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link href="/favorites"><Heart className="mr-2 h-4 w-4" />{t('savedStays')}</Link></DropdownMenuItem>
             {profile?.role === 'admin' && (
-              <DropdownMenuItem asChild><Link href="/admin"><ShieldCheck className="mr-2 h-4 w-4" />Admin Panel</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link href="/admin"><ShieldCheck className="mr-2 h-4 w-4" />{t('adminPanel')}</Link></DropdownMenuItem>
             )}
             <DropdownMenuSeparator />
           </>
         ) : (
           <>
-            <DropdownMenuItem asChild><Link href="/auth?tab=signup" className="font-semibold">Sign up</Link></DropdownMenuItem>
-            <DropdownMenuItem asChild><Link href="/auth?tab=login">Log in</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link href="/auth?tab=signup" className="font-semibold">{t('signUp')}</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link href="/auth?tab=login">{t('login')}</Link></DropdownMenuItem>
             <DropdownMenuSeparator />
           </>
         )}
@@ -112,7 +114,7 @@ const Header = () => {
         {isLoggedIn && (
           <>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleSignOut}><LogOut className="mr-2 h-4 w-4" />Log out</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleSignOut}><LogOut className="mr-2 h-4 w-4" />{t('logOut')}</DropdownMenuItem>
           </>
         )}
       </DropdownMenuContent>
@@ -144,7 +146,7 @@ const Header = () => {
                 </nav>
                 <div className="flex flex-col gap-2 border-t border-outline-variant/30 pt-4">
                   {isLoggedIn ? (
-                    <button onClick={handleSignOut} className="text-left font-label-md text-label-md text-on-surface-variant">Log out</button>
+                    <button onClick={handleSignOut} className="text-left font-label-md text-label-md text-on-surface-variant">{t('logOut')}</button>
                   ) : (
                     <>
                       <Link href="/auth?tab=login" className="font-label-md text-label-md text-primary-container">{t('login')}</Link>
@@ -171,11 +173,11 @@ const Header = () => {
           scrolled ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none absolute'
         )}
       >
-        <span className="pl-4 pr-3 font-label-md text-label-md text-on-surface">Anywhere</span>
+        <span className="pl-4 pr-3 font-label-md text-label-md text-on-surface">{t('anywhere')}</span>
         <span className="h-4 w-px bg-outline-variant/40" />
-        <span className="px-3 font-label-md text-label-md text-on-surface-variant">Any week</span>
+        <span className="px-3 font-label-md text-label-md text-on-surface-variant">{t('anyWeek')}</span>
         <span className="h-4 w-px bg-outline-variant/40" />
-        <span className="pl-3 pr-1 font-label-md text-label-md text-on-surface-variant">Add guests</span>
+        <span className="pl-3 pr-1 font-label-md text-label-md text-on-surface-variant">{t('addGuests')}</span>
         <span className="bg-primary-container text-on-primary rounded-full h-8 w-8 flex items-center justify-center shrink-0">
           <Search className="h-3.5 w-3.5" />
         </span>

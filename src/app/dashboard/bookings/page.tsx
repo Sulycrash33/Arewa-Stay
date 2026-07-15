@@ -87,14 +87,14 @@ export default async function MyBookingsPage() {
       {(asGuest ?? []).length > 0 && (
         <>
           <h2 className="font-title-md text-title-md text-m3-primary mb-stack-sm">As a Guest</h2>
-          <div className="space-y-stack-sm mb-stack-lg">{asGuest!.map((b) => renderBooking(b, 'guest'))}</div>
+          <div className="space-y-stack-sm mb-stack-lg">{(asGuest ?? []).map((b: { id: string; [key: string]: any }) => renderBooking(b, 'guest'))}</div>
         </>
       )}
 
       {(asHost ?? []).length > 0 && (
         <>
           <h2 className="font-title-md text-title-md text-m3-primary mb-stack-sm">As a Host</h2>
-          <div className="space-y-stack-sm">{asHost!.map((b) => renderBooking(b, 'host'))}</div>
+          <div className="space-y-stack-sm">{(asHost ?? []).map((b: { id: string; [key: string]: any }) => renderBooking(b, 'host'))}</div>
         </>
       )}
 

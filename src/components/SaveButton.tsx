@@ -34,7 +34,7 @@ export default function SaveButton({ listingId }: { listingId: string }) {
       .eq('user_id', profile.id)
       .eq('listing_id', listingId)
       .maybeSingle()
-      .then(({ data }) => {
+      .then(({ data }: { data: { listing_id: string } | null }) => {
         if (!cancelled) setSaved(!!data);
       });
     return () => {

@@ -7,9 +7,9 @@ import { Languages, BookOpen, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const OPTIONS = [
-  { code: 'en' as const, title: 'English', subtitle: 'Latin Script', icon: Languages },
-  { code: 'ha' as const, title: 'Hausa', subtitle: 'Boko — Standardized Hausa', icon: BookOpen },
-  { code: 'fr' as const, title: 'Français', subtitle: 'For Niger Republic guests', icon: Languages },
+  { code: 'en' as const, title: 'English', subtitle: 'Latin script', icon: Languages },
+  { code: 'ha' as const, title: 'Hausa', subtitle: 'Boko – Hausa da aka daidaita', icon: BookOpen },
+  { code: 'fr' as const, title: 'Français', subtitle: 'Pour les visiteurs du Niger', icon: Languages },
 ];
 
 export default function LanguageOnboardingPage() {
@@ -26,12 +26,12 @@ export default function LanguageOnboardingPage() {
     <main className="w-full max-w-md mx-auto flex flex-col justify-center px-container-margin py-stack-lg min-h-[calc(100vh-64px)]">
       <header className="mb-stack-lg text-center">
         <h1 className="font-headline-lg-mobile text-headline-lg-mobile text-m3-primary mb-stack-sm">
-          Zaɓi Harshenka
+          {language === 'ha' ? 'Zaɓi yaren ka' : language === 'fr' ? 'Choisissez votre langue' : 'Choose your language'}
           <br />
-          <span className="text-on-surface-variant font-title-md text-title-md">Choose Your Language</span>
+          <span className="text-on-surface-variant font-title-md text-title-md">{language === 'ha' ? 'Zaɓi yaren da kake so' : language === 'fr' ? 'Sélectionnez votre langue' : 'Choose your language'}</span>
         </h1>
         <p className="font-body-md text-body-md text-on-surface-variant">
-          Select your preferred language for a tailored experience.
+          {language === 'ha' ? 'Zaɓi yaren da ya dace da ka domin ƙwarewa ta musamman.' : language === 'fr' ? 'Choisissez la langue qui vous convient pour une expérience sur mesure.' : 'Select your preferred language for a tailored experience.'}
         </p>
       </header>
 
@@ -84,12 +84,12 @@ export default function LanguageOnboardingPage() {
           onClick={handleContinue}
           className="w-full bg-primary-container text-on-primary rounded-full py-3 px-6 font-title-md text-title-md hover:opacity-90 transition-colors flex items-center justify-center gap-2"
         >
-          Continue
+          {language === 'ha' ? 'Ci gaba' : language === 'fr' ? 'Continuer' : 'Continue'}
           <ArrowRight className="h-4 w-4" />
         </button>
         <div className="mt-stack-md text-center">
           <button onClick={() => router.push('/')} className="font-label-md text-label-md text-outline hover:text-primary-container transition-colors">
-            Skip for now
+            {language === 'ha' ? 'Tsallake a yanzu' : language === 'fr' ? 'Passer pour l’instant' : 'Skip for now'}
           </button>
         </div>
       </div>

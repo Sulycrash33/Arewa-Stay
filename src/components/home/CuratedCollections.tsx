@@ -1,7 +1,10 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Crown, Sun, Home as HomeIcon, Briefcase, Landmark, Music } from 'lucide-react';
 import { realPropertyPhotos } from '@/lib/stock-photos';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const COLLECTIONS = [
   { icon: Crown, title: 'Royal Wedding Suites', desc: 'Celebrate in style.', photo: realPropertyPhotos.bedrooms[0] },
@@ -13,15 +16,16 @@ const COLLECTIONS = [
 ];
 
 export default function CuratedCollections() {
+  const { t } = useLanguage();
   return (
     <section className="container mx-auto px-4 py-stack-lg">
       <div className="flex items-end justify-between mb-stack-md">
         <div>
-          <span className="font-label-sm text-label-sm text-ochre-gold uppercase tracking-widest">Curated Collections</span>
-          <h2 className="font-headline-lg text-headline-lg text-m3-primary mt-1">Find stays that fit your journey.</h2>
+          <span className="font-label-sm text-label-sm text-ochre-gold uppercase tracking-widest">{t('featuredStaysTitle')}</span>
+          <h2 className="font-headline-lg text-headline-lg text-m3-primary mt-1">{t('featuredStaysSubtitle')}</h2>
         </div>
         <Link href="/listings" className="hidden md:flex items-center gap-1 font-label-md text-label-md text-primary-container hover:underline shrink-0">
-          View all collections →
+          {t('viewAllStays')} →
         </Link>
       </div>
 

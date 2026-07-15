@@ -43,7 +43,7 @@ export default async function MessagesListPage() {
         </div>
       ) : (
         <div className="space-y-2">
-          {rows.map((c) => (
+          {rows.map((c: { id: string; [key: string]: any }) => (
             <Link
               key={c.id}
               href={`/dashboard/messages/${c.id}`}

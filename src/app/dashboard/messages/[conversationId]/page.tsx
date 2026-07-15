@@ -89,8 +89,10 @@ export default function ConversationThread() {
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'messages', filter: `conversation_id=eq.${conversationId}` },
-        (payload) => {
-          setMessages((prev) => [...prev, payload.new as Message]);
+        (payload: { new?: Message }) => {
+          if (payload.new) {
+            setMessages((prev) => [...prev, payload.new as Message]);
+          }
         }
       )
       .subscribe();

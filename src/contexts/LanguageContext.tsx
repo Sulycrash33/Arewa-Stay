@@ -23,12 +23,14 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   useEffect(() => {
     const savedLanguage = localStorage.getItem('arewa_language') as Language;
     if (savedLanguage && ['en', 'ha', 'fr'].includes(savedLanguage)) {
+      document.cookie = `arewa_language=${savedLanguage}; path=/; max-age=31536000; SameSite=Lax`;
       setLanguageState(savedLanguage);
     }
   }, []);
 
   const setLanguage = (lang: Language) => {
     localStorage.setItem('arewa_language', lang);
+    document.cookie = `arewa_language=${lang}; path=/; max-age=31536000; SameSite=Lax`;
     setLanguageState(lang);
   };
 

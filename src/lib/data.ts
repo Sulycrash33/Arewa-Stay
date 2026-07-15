@@ -62,8 +62,9 @@ export interface ListingFilters {
 export async function getAverageRatesByCity(): Promise<Record<string, number>> {
   const supabase = await createClient();
   const { data } = await supabase.from('listings').select('city, price_per_night').eq('status', 'approved');
+  const rows = (data ?? []) as Array<{ city: string; price_per_night: number | string | null }>;
   const sums: Record<string, { total: number; count: number }> = {};
-  (data ?? []).forEach((row) => {
+  rows.forEach((row) => {
     if (!sums[row.city]) sums[row.city] = { total: 0, count: 0 };
     sums[row.city].total += Number(row.price_per_night);
     sums[row.city].count += 1;
@@ -103,8 +104,8 @@ export async function getListings(filters: ListingFilters = {}): Promise<Listing
       .in('status', ['pending', 'confirmed'])
       .lt('check_in', filters.checkOut)
       .gt('check_out', filters.checkIn);
-    const blocked = new Set((conflicts ?? []).map((c) => c.listing_id));
-    listings = listings.filter((l) => !blocked.has(l.id));
+    const blocked = new Set((conflicts ?? []).map((c: { listing_id: string }) => c.listing_id));
+    listings = listings.filter((l: Listing) => !blocked.has(l.id));
   }
 
   return listings;
@@ -149,7 +150,7 @@ export async function getBookedRanges(listingId: string): Promise<{ from: string
     .eq('listing_id', listingId)
     .in('status', ['pending', 'confirmed']);
   if (error) throw error;
-  return (data ?? []).map((b) => ({ from: b.check_in, to: b.check_out }));
+  return (data ?? []).map((b: { check_in: string; check_out: string }) => ({ from: b.check_in, to: b.check_out }));
 }
 
 /**

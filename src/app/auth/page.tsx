@@ -7,6 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import ArewaStayLogo from '@/components/ArewaStayLogo';
 import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function AuthPage() {
   return (
@@ -20,6 +21,7 @@ function AuthPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [tab, setTab] = useState<'login' | 'signup'>(searchParams.get('tab') === 'signup' ? 'signup' : 'login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,7 +32,7 @@ function AuthPageInner() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (tab === 'signup' && !agreedToTerms) {
-      toast({ title: 'Please agree to the Terms and Privacy Policy to continue', variant: 'destructive' });
+      toast({ title: t('authAgreeError'), variant: 'destructive' });
       return;
     }
     setLoading(true);
@@ -43,18 +45,18 @@ function AuthPageInner() {
         options: { data: { full_name: fullName } },
       });
       if (error) {
-        toast({ title: 'Sign up failed', description: error.message, variant: 'destructive' });
+        toast({ title: t('authSignupFailed'), description: error.message, variant: 'destructive' });
       } else {
-        toast({ title: 'Welcome to Arewa Stay', description: 'Check your email to confirm your account if required.' });
+        toast({ title: t('authWelcomeTitle'), description: t('authWelcomeBody') });
         router.push('/');
         router.refresh();
       }
     } else {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) {
-        toast({ title: 'Login failed', description: error.message, variant: 'destructive' });
+        toast({ title: t('authLoginFailed'), description: error.message, variant: 'destructive' });
       } else {
-        toast({ title: 'Welcome back' });
+        toast({ title: t('authWelcomeBack') });
         router.push('/');
         router.refresh();
       }
@@ -68,17 +70,17 @@ function AuthPageInner() {
 
       <div className="w-full max-w-md bg-surface-container-lowest rounded-tubali tubali-border p-stack-lg shadow-tubali">
         <div className="flex bg-surface-container-low rounded-full p-1 mb-stack-lg">
-          {(['login', 'signup'] as const).map((t) => (
+          {(['login', 'signup'] as const).map((tabValue) => (
             <button
-              key={t}
+              key={tabValue}
               type="button"
-              onClick={() => setTab(t)}
+              onClick={() => setTab(tabValue)}
               className={cn(
                 'flex-1 font-label-md text-label-md py-2 rounded-full transition-all',
-                tab === t ? 'bg-primary-container text-on-primary active-pill-shadow' : 'text-on-surface-variant'
+                tab === tabValue ? 'bg-primary-container text-on-primary active-pill-shadow' : 'text-on-surface-variant'
               )}
             >
-              {t === 'login' ? 'Log In' : 'Sign Up'}
+              {tabValue === 'login' ? t('authLoginTab') : t('authSignupTab')}
             </button>
           ))}
         </div>
@@ -86,7 +88,7 @@ function AuthPageInner() {
         <form onSubmit={handleSubmit} className="space-y-stack-md">
           {tab === 'signup' && (
             <div>
-              <label className="block font-label-md text-label-md text-on-surface-variant mb-1">Full Name</label>
+              <label className="block font-label-md text-label-md text-on-surface-variant mb-1">{t('authFullName')}</label>
               <input
                 required
                 type="text"
@@ -130,10 +132,10 @@ function AuthPageInner() {
                 className="mt-1 h-4 w-4 rounded border-clay-brown text-primary-container focus:ring-primary-container shrink-0"
               />
               <span className="font-body-md text-sm text-on-surface-variant">
-                I agree to Arewa Stay&apos;s{' '}
-                <a href="/terms" target="_blank" className="text-primary-container hover:underline">Terms of Service</a>
-                {' '}and{' '}
-                <a href="/privacy" target="_blank" className="text-primary-container hover:underline">Privacy Policy</a>.
+                {t('authTermsPrefix')}{' '}
+                <a href="/terms" target="_blank" className="text-primary-container hover:underline">{t('authTermsLink')}</a>
+                {' '}{t('authAnd')}{' '}
+                <a href="/privacy" target="_blank" className="text-primary-container hover:underline">{t('authPrivacyLink')}</a>.
               </span>
             </label>
           )}
@@ -144,7 +146,7 @@ function AuthPageInner() {
             className="w-full bg-primary-container text-on-primary font-title-md text-title-md py-3 rounded-full hover:opacity-90 transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
           >
             {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-            {tab === 'login' ? 'Log In' : 'Create Account'}
+            {tab === 'login' ? t('authLoginTab') : t('authCreateAccount')}
           </button>
         </form>
       </div>

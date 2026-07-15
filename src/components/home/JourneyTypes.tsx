@@ -1,4 +1,5 @@
 import { Heart, Briefcase, Users, Building2, GraduationCap, Stethoscope, Landmark, ArrowLeftRight, Film, Gem } from 'lucide-react';
+import { getTranslations } from '@/lib/i18n';
 
 const JOURNEYS = [
   { icon: Heart, label: 'Wedding Celebrations' },
@@ -13,12 +14,13 @@ const JOURNEYS = [
   { icon: Gem, label: 'Luxury Getaways' },
 ];
 
-export default function JourneyTypes() {
+export default async function JourneyTypes() {
+  const t = await getTranslations();
   return (
     <section className="container mx-auto px-4 py-stack-lg">
       <div className="mb-stack-md">
-        <span className="font-label-sm text-label-sm text-ochre-gold uppercase tracking-widest">Designed for Every Journey</span>
-        <h2 className="font-headline-lg text-headline-lg text-m3-primary mt-1">Stays for what matters to you.</h2>
+        <span className="font-label-sm text-label-sm text-ochre-gold uppercase tracking-widest">{t.journeysTitle}</span>
+        <h2 className="font-headline-lg text-headline-lg text-m3-primary mt-1">{t.journeysSubtitle}</h2>
       </div>
 
       <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-10 gap-3">

@@ -22,8 +22,8 @@ export default async function AdminVerificationsPage() {
 
   const { data: liaisons } = await supabase.from('liaisons').select('id, full_name, phone').eq('active', true);
 
-  const pending = (verifications ?? []).filter((v) => v.status === 'pending');
-  const others = (verifications ?? []).filter((v) => v.status !== 'pending');
+  const pending = (verifications ?? []).filter((v: { status?: string }) => v.status === 'pending');
+  const others = (verifications ?? []).filter((v: { status?: string }) => v.status !== 'pending');
 
   const renderRow = (v: any) => (
     <div key={v.id} className="rounded-tubali bg-surface-container-lowest tubali-border p-stack-md flex flex-col sm:flex-row sm:items-center gap-stack-sm">
