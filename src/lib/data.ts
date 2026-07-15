@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import type { Listing, Review, Booking } from '@/lib/types';
+import type { Amenity, Listing, Review, Booking, Profile, SpecialPackage } from '@/lib/types';
 
 export { arewaStates, arewaCities, allRegions } from '@/lib/constants';
 
@@ -12,15 +12,37 @@ const LISTING_SELECT = `
   host:profiles!listings_host_id_fkey ( id, full_name, avatar_url, languages, identity_verified, host_tier )
 `;
 
-function shapeListing(row: any): Listing {
+type RawListingImage = {
+  url: string;
+  sort_order: number;
+};
+
+type RawListingAmenity = {
+  amenities: Amenity | null;
+};
+
+type RawEventOption = {
+  option_text: string;
+};
+
+type RawListingRow = Omit<Listing, 'images' | 'amenities' | 'special_packages' | 'event_options' | 'host'> & {
+  listing_images?: RawListingImage[] | null;
+  listing_amenities?: RawListingAmenity[] | null;
+  special_packages?: SpecialPackage[] | null;
+  event_options?: RawEventOption[] | null;
+  host?: Pick<Profile, 'id' | 'full_name' | 'avatar_url' | 'languages' | 'identity_verified' | 'host_tier'> | null;
+};
+
+function shapeListing(row: RawListingRow): Listing {
   return {
     ...row,
     images: (row.listing_images ?? [])
-      .sort((a: any, b: any) => a.sort_order - b.sort_order)
-      .map((i: any) => i.url),
-    amenities: (row.listing_amenities ?? []).map((la: any) => la.amenities),
+      .sort((a, b) => a.sort_order - b.sort_order)
+      .map((i) => i.url),
+    amenities: (row.listing_amenities ?? []).map((la) => la.amenities).filter((amenity): amenity is Amenity => Boolean(amenity)),
     special_packages: row.special_packages ?? [],
-    event_options: (row.event_options ?? []).map((e: any) => e.option_text),
+    event_options: (row.event_options ?? []).map((e) => e.option_text),
+    host: row.host ?? undefined,
   };
 }
 
@@ -75,7 +97,7 @@ export async function getListings(filters: ListingFilters = {}): Promise<Listing
   const { data, error } = await query.order('created_at', { ascending: false });
   if (error) throw error;
 
-  let listings = (data ?? []).map(shapeListing);
+  let listings = (data ?? []).map((row) => shapeListing(row as RawListingRow));
 
   // Date-range availability filter: excludes listings with a conflicting booking.
   if (filters.checkIn && filters.checkOut) {
@@ -96,7 +118,7 @@ export async function getListingById(id: string): Promise<Listing | null> {
   const supabase = await createClient();
   const { data, error } = await supabase.from('listings').select(LISTING_SELECT).eq('id', id).maybeSingle();
   if (error) throw error;
-  return data ? shapeListing(data) : null;
+  return data ? shapeListing(data as RawListingRow) : null;
 }
 
 /** Host's own listings, any status — used on the host dashboard. */
@@ -108,7 +130,7 @@ export async function getHostListings(hostId: string): Promise<Listing[]> {
     .eq('host_id', hostId)
     .order('created_at', { ascending: false });
   if (error) throw error;
-  return (data ?? []).map(shapeListing);
+  return (data ?? []).map((row) => shapeListing(row as RawListingRow));
 }
 
 export async function getReviewsForListing(listingId: string): Promise<Review[]> {
@@ -224,7 +246,7 @@ export async function getListingsForAdmin(status?: 'pending' | 'approved' | 'rej
   if (status) query = query.eq('status', status);
   const { data, error } = await query;
   if (error) throw error;
-  return (data ?? []).map(shapeListing);
+  return (data ?? []).map((row) => shapeListing(row as RawListingRow));
 }
 
 /** Update the cultural/infrastructure toggles on a listing (property wizard step). */
