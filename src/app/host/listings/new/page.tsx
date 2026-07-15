@@ -91,7 +91,7 @@ export default function NewListingPage() {
             required
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="e.g. Family Compound with Zaure, near Kano GRA"
+            placeholder="e.g. Cozy Family Home near Kano GRA"
             className="w-full bg-transparent border-0 border-b-2 border-clay-brown focus:ring-0 px-0 py-2 font-body-md text-on-surface"
           />
         </div>

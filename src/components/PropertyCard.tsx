@@ -28,9 +28,9 @@ const PropertyCard = ({ property }: { property: Listing }) => {
     property.women_only && 'Women-only',
     property.family_only && 'Family-only',
     property.no_alcohol && 'No alcohol',
-    property.has_zaure && 'Zaure reception',
-    property.has_247_solar && '24/7 solar',
-    property.has_borehole && 'Borehole water',
+    property.has_zaure && 'Private welcome area',
+    property.has_247_solar && 'Always-on power',
+    property.has_borehole && 'Reliable water supply',
   ].filter(Boolean) as string[];
 
   return (

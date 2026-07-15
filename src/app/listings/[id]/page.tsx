@@ -14,10 +14,10 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
   const images = listing.images?.length ? listing.images : ['/placeholder-listing.jpg'];
 
   const culturalBadges = [
-    listing.has_zaure && { icon: DoorOpen, label: 'Zaure reception' },
-    listing.detached_quarters && { icon: Home, label: 'Detached quarters' },
-    listing.has_247_solar && { icon: Sun, label: '24/7 solar power' },
-    listing.has_borehole && { icon: Droplets, label: 'Borehole water' },
+    listing.has_zaure && { icon: DoorOpen, label: 'Private welcome area' },
+    listing.detached_quarters && { icon: Home, label: 'Separate, private space' },
+    listing.has_247_solar && { icon: Sun, label: 'Always-on power' },
+    listing.has_borehole && { icon: Droplets, label: 'Reliable water supply' },
   ].filter(Boolean) as { icon: any; label: string }[];
 
   return (
@@ -54,7 +54,7 @@ export default async function ListingDetailPage({ params }: { params: Promise<{ 
 
           {culturalBadges.length > 0 && (
             <section>
-              <h2 className="font-title-md text-title-md text-m3-primary mb-stack-sm">Cultural &amp; Infrastructure Features</h2>
+              <h2 className="font-title-md text-title-md text-m3-primary mb-stack-sm">Comfort &amp; Convenience</h2>
               <div className="grid grid-cols-2 gap-stack-sm">
                 {culturalBadges.map(({ icon: Icon, label }) => (
                   <div key={label} className="flex items-center gap-2 rounded-xl border border-outline-variant/30 p-stack-sm">

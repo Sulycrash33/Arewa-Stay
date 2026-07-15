@@ -78,7 +78,7 @@ export default function PhotosStep() {
 
       <h1 className="font-headline-lg text-headline-lg text-m3-primary mb-2">Add photos</h1>
       <p className="font-body-md text-on-surface-variant mb-stack-lg">
-        Real photos build trust fast — exterior, living room, bedroom, bathroom, kitchen, and any courtyard or zaure area.
+        Real photos build trust fast. Show the exterior, living room, bedroom, bathroom, kitchen, and any outdoor or welcome area guests will enjoy.
       </p>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-stack-md">

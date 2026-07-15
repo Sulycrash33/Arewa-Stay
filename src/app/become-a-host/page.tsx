@@ -19,7 +19,7 @@ export default async function BecomeAHostPage() {
         <div className="text-center mb-stack-lg">
           <h1 className="font-display-lg text-4xl md:text-display-lg text-m3-primary mb-stack-sm">Host with Arewa Stay</h1>
           <p className="font-body-lg text-body-lg text-on-surface-variant max-w-xl mx-auto">
-            Turn your zaure, guest wing, or family compound into income — while keeping the privacy and dignity your household expects.
+            Turn your spare room, guest wing, or family home into real income, while keeping the privacy and comfort your household expects.
           </p>
         </div>
 

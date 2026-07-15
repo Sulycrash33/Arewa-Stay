@@ -5,12 +5,12 @@ const REASONS = [
   {
     icon: Home,
     title: "It's simple",
-    body: 'List your zaure, guest wing, or family compound in a few steps — with support from our community liaisons at every stage.',
+    body: 'List your space in a few simple steps, with support from our community liaisons at every stage.',
   },
   {
     icon: Wallet,
     title: "It's worth it",
-    body: "Getting started is free. You set your price, and we only take a fee once you've been paid — never before.",
+    body: "Getting started is free. You set your price, and we only take a fee once you've been paid.",
   },
   {
     icon: ShieldCheck,

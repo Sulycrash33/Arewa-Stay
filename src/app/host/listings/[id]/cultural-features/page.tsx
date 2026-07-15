@@ -10,10 +10,10 @@ import WizardProgress from '@/components/host/WizardProgress';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 const FEATURES = [
-  { key: 'has_zaure' as const, title: 'Has Zaure', desc: 'Traditional entrance vestibule for receiving guests.' },
-  { key: 'detached_quarters' as const, title: 'Detached Quarters', desc: 'Separate living structure for privacy (e.g. Boys Quarters).' },
-  { key: 'has_247_solar' as const, title: 'Solar Power', desc: 'Reliable off-grid electricity generation.' },
-  { key: 'has_borehole' as const, title: 'Borehole Water', desc: 'Independent groundwater supply.' },
+  { key: 'has_zaure' as const, title: 'Private welcome area', desc: 'A separate space to greet guests warmly, without stepping into the rest of the home.' },
+  { key: 'detached_quarters' as const, title: 'A place of their own', desc: 'Guests get a fully separate, private space to stay in.' },
+  { key: 'has_247_solar' as const, title: 'Always-on power', desc: 'Guests can count on the lights staying on, day or night.' },
+  { key: 'has_borehole' as const, title: 'Reliable water supply', desc: 'A steady, independent source of clean water for guests.' },
 ];
 
 type FeatureKey = typeof FEATURES[number]['key'];
@@ -69,9 +69,9 @@ export default function CulturalFeaturesStep() {
       <WizardProgress step={3} />
 
       <div className="mb-stack-lg">
-        <h2 className="font-headline-lg-mobile text-headline-lg-mobile text-m3-primary mb-stack-sm">Cultural Features</h2>
+        <h2 className="font-headline-lg-mobile text-headline-lg-mobile text-m3-primary mb-stack-sm">What makes your place comfortable?</h2>
         <p className="text-on-surface-variant">
-          Highlight the authentic Northern Nigerian architectural and infrastructure features your property offers. These details attract guests seeking an immersive, reliable experience.
+          Little touches of comfort and reliability go a long way. Let guests know what to expect before they arrive.
         </p>
       </div>
 

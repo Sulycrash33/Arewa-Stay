@@ -43,7 +43,7 @@ export default async function ListingsPage({
       <div className="flex gap-2 overflow-x-auto pb-stack-md">
         {filterLink('womenOnly', 'true', 'Women-only', params.womenOnly === 'true')}
         {filterLink('familyOnly', 'true', 'Family-only', params.familyOnly === 'true')}
-        {filterLink('hasZaure', 'true', 'Zaure reception', params.hasZaure === 'true')}
+        {filterLink('hasZaure', 'true', 'Private welcome area', params.hasZaure === 'true')}
       </div>
 
       {/* City pills, grouped by state — covers every major state/town across
