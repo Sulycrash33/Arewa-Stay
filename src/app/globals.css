@@ -81,4 +81,13 @@
     background-repeat: repeat;
     background-size: 240px 240px;
   }
+  /* Site-wide wall texture: applied once, fixed, behind every page via
+     RootLayout — not a per-section accent. Small tile + low wrapper
+     opacity (set on the element using this class) keeps it a background
+     wash rather than a foreground pattern competing with content. */
+  .henna-wall {
+    background-image: url('/patterns/henna-wall.svg');
+    background-repeat: repeat;
+    background-size: 200px 200px;
+  }
 }
