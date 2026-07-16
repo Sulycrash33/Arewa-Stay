@@ -26,13 +26,13 @@ export default function HeroSearch() {
 
   return (
     <section className="relative w-full overflow-hidden">
-      {/* Full-bleed hero photo — real, team-submitted photography of a
-          boutique resort-style pool with arched colonnade, communicating
-          premium hospitality directly rather than via illustration/stock. */}
+      {/* Full-bleed hero photo — entrance gate at dusk with "Welcome Home"
+          signage and a rider in traditional attire, aligned with the
+          Heritage Hospitality design system (replaces prior pool/riad shot). */}
       <div className="relative h-[520px] md:h-[600px] w-full">
         <Image
-          src={realPropertyPhotos.pools[2]}
-          alt="Boutique resort-style pool — Arewa Stay premium hospitality"
+          src={realPropertyPhotos.hero[0]}
+          alt="Arewa Stay welcome entrance — Heritage Hospitality"
           fill
           priority
           className="object-cover"

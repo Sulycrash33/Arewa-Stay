@@ -36,6 +36,12 @@ export const realPropertyPhotos = {
     '/images/properties/pool-loungers-01.jpg',
     '/images/properties/resort-pool-arches-01.jpg',
   ],
+  hero: [
+    // New hero: entrance gate at dusk, "Welcome Home" signage, rider in
+    // traditional attire — replaces the Moroccan riad placeholder with a
+    // Heritage Hospitality-aligned shot that reads as arrival/welcome.
+    '/images/properties/hero-welcome-gate-01.jpg',
+  ],
   exteriors: [
     '/images/properties/exterior-vip-01.jpg',
     '/images/properties/exterior-night-01.jpg',
