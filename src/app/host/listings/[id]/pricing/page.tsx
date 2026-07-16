@@ -10,6 +10,8 @@ import WizardProgress from '@/components/host/WizardProgress';
 import DagiLoader from '@/components/DagiLoader';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
+const MIN_PRICE_NGN = 35000; // Floor for the amount a host can charge per night in Naira
+
 export default function PricingStep() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
@@ -50,6 +52,10 @@ export default function PricingStep() {
       toast({ title: 'Enter a valid nightly price', variant: 'destructive' });
       return;
     }
+    if (currency === 'NGN' && numericPrice < MIN_PRICE_NGN) {
+      toast({ title: `Minimum price is ₦${MIN_PRICE_NGN.toLocaleString()}/night`, variant: 'destructive' });
+      return;
+    }
     setSaving(true);
     const supabase = createClient();
     const { error } = await supabase
@@ -87,12 +93,17 @@ export default function PricingStep() {
             <label className="block font-label-md text-label-md text-on-surface-variant mb-1">Price per night</label>
             <input
               type="number"
-              min={0}
+              min={currency === 'NGN' ? MIN_PRICE_NGN : 0}
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               placeholder="45000"
               className="w-full bg-transparent border-0 border-b-2 border-clay-brown focus:ring-0 px-0 py-2 font-body-lg text-body-lg text-on-surface"
             />
+            {currency === 'NGN' && (
+              <p className="font-label-sm text-label-sm text-on-surface-variant mt-1">
+                Minimum ₦{MIN_PRICE_NGN.toLocaleString()}/night
+              </p>
+            )}
           </div>
           <div className="w-28">
             <label className="block font-label-md text-label-md text-on-surface-variant mb-1">Currency</label>

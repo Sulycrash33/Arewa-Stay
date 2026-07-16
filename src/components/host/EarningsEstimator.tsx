@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { arewaCities } from '@/lib/constants';
 
-const DEFAULT_RATE = 25000; // ₦/night fallback for towns with no listings yet
+const DEFAULT_RATE = 35000; // ₦/night fallback for towns with no listings yet
 const BEDROOM_MULTIPLIER: Record<string, number> = { '1': 0.7, '2': 1, '3': 1.4, '4': 1.9, '5+': 2.5 };
 
 export default function EarningsEstimator({ ratesByCity }: { ratesByCity: Record<string, number> }) {
