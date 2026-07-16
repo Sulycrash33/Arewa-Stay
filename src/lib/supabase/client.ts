@@ -1,4 +1,4 @@
-// Browser-side Supabase client — safe to use in client components.
+// Browser-side Supabase client, safe to use in client components.
 import { createBrowserClient } from '@supabase/ssr';
 import { createMockSupabaseClient } from '@/lib/supabase/mock-client';
 

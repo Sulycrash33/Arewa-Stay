@@ -27,7 +27,7 @@ const Header = () => {
 
   // Scroll-compact effect: on the home page (which has a tall hero), the
   // header starts fully transparent-adjacent and condenses into a compact
-  // search pill once the user scrolls past the hero — the same pattern
+  // search pill once the user scrolls past the hero, the same pattern
   // Airbnb uses, rather than always showing a static bar.
   const isHome = pathname === '/';
 
@@ -71,7 +71,7 @@ const Header = () => {
     </DropdownMenu>
   );
 
-  // Single combined menu — everything (nav links, auth, account actions)
+  // Single combined menu, everything (nav links, auth, account actions)
   // lives behind one clean bordered pill, instead of ~8 separate top-level
   // items competing for space.
   const combinedMenu = (
@@ -163,7 +163,7 @@ const Header = () => {
         </Link>
       </div>
 
-      {/* Compact search pill — condenses in once scrolled past the hero
+      {/* Compact search pill, condenses in once scrolled past the hero
           (or is simply always shown on non-home pages), matching the
           reference's scroll-compact pattern instead of a static, stretched bar. */}
       <button

@@ -46,7 +46,7 @@ export default async function ListingsPage({
         {filterLink('hasZaure', 'true', 'Private welcome area', params.hasZaure === 'true')}
       </div>
 
-      {/* City pills, grouped by state — covers every major state/town across
+      {/* City pills, grouped by state, covers every major state/town across
           Northern Nigeria and Niger Republic, not just a handful of big cities.
           The goal: give every host's town a real chance to be searched for. */}
       <div className="space-y-stack-sm mb-stack-lg">
@@ -87,7 +87,7 @@ export default async function ListingsPage({
       ) : (
         <div className="text-center py-stack-lg">
           <p className="font-body-lg text-body-lg text-on-surface-variant">
-            No stays match these filters yet — once hosts start onboarding, their approved listings will show up here.
+            No stays match these filters yet, once hosts start onboarding, their approved listings will show up here.
           </p>
         </div>
       )}

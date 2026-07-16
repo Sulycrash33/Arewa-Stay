@@ -1,17 +1,17 @@
 // Curated real photography for Arewa Stay, sourced from Pexels (free for
-// commercial use, no attribution required — https://www.pexels.com/license/).
+// commercial use, no attribution required, https://www.pexels.com/license/).
 // This is a placeholder set standing in for real host-uploaded property
-// photography and commissioned Nigerian photography — see PHOTOGRAPHY_BRIEF.md
+// photography and commissioned Nigerian photography, see PHOTOGRAPHY_BRIEF.md
 // for the full target spec and honest gaps.
 //
 // Note on the hero photo specifically: it's a genuine Moroccan riad (Marrakech),
 // not Nigerian. Used deliberately as the closest real, verifiably-licensed
 // match to "luxury Sahel-style hospitality" until real Nigerian riad/heritage
-// hotel photography is available — flagging this plainly rather than passing
+// hotel photography is available, flagging this plainly rather than passing
 // it off as Nigerian.
 
 // ============================================================================
-// Real property photography — provided directly by the client, extracted from
+// Real property photography, provided directly by the client, extracted from
 // a merged photo gallery and organized here. These are genuine property
 // exteriors/interiors (no location captions were provided, so these are used
 // as representative imagery, not claimed as specific named landmarks).
@@ -37,7 +37,7 @@ export const realPropertyPhotos = {
     '/images/properties/resort-pool-arches-01.jpg',
   ],
   hero: [
-    // Hero: interior window view — a guest looking out at a rider passing
+    // Hero: interior window view, a guest looking out at a rider passing
     // by a modern Heritage Hospitality compound at golden hour. Replaces
     // the entrance-gate shot per explicit choice.
     '/images/properties/hero-window-view-01.jpg',
@@ -82,17 +82,17 @@ export const allPropertyPhotos: string[] = [
 ];
 
 export const heroPhotos = {
-  // Real, free-license luxury riad courtyard (Marrakech, Morocco) — NOT
+  // Real, free-license luxury riad courtyard (Marrakech, Morocco), NOT
   // Nigerian, used as the closest available match for "premium hospitality"
   // feel until real Nigerian heritage-hotel photography replaces it.
   luxuryRiad: 'https://images.pexels.com/photos/31356131/pexels-photo-31356131.png?auto=compress&cs=tinysrgb&w=1600',
-  // Gidan Dan Hausa, Kano — real, genuinely Nigerian Hausa architecture
+  // Gidan Dan Hausa, Kano, real, genuinely Nigerian Hausa architecture
   architecture: 'https://images.pexels.com/photos/31603813/pexels-photo-31603813.jpeg?auto=compress&cs=tinysrgb&w=1600',
-  // Real, team-submitted property photo — modern building exterior, night lighting
+  // Real, team-submitted property photo, modern building exterior, night lighting
   realProperty: realPropertyPhotos.exteriors[1], // exterior-night-01
 };
 
-// City landmark photos — genuine, verified matches where they exist.
+// City landmark photos, genuine, verified matches where they exist.
 // Falls back to the general architecture rotation for towns without a
 // specific, reliably-licensed landmark photo (see PHOTOGRAPHY_BRIEF.md).
 export const cityLandmarks: Record<string, string> = {
@@ -120,7 +120,7 @@ export const culturePhotos: string[] = [
   'https://images.pexels.com/photos/35429635/pexels-photo-35429635.jpeg?auto=compress&cs=tinysrgb&w=800', // Woman in traditional Hausa attire with henna
 ];
 
-// Curated Collections — one representative interior/exterior photo per
+// Curated Collections, one representative interior/exterior photo per
 // category, matching what the category is actually about (not a landmark).
 // Real, team-submitted photography (realPropertyPhotos above), not generic stock.
 export const collectionPhotos = {

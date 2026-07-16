@@ -24,7 +24,7 @@ export default function PaymentProcessingPage() {
         return;
       }
       if (attempts >= 15) {
-        // ~30s of polling with no confirmation — stop spinning forever
+        // ~30s of polling with no confirmation, stop spinning forever
         router.push(`/bookings/${id}/review`);
         return;
       }

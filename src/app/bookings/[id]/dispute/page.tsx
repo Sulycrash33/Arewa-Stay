@@ -78,7 +78,7 @@ export default function ReportIssuePage() {
         <textarea
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          placeholder="Describe the issue — be as specific as you can about dates and what occurred."
+          placeholder="Describe the issue, be as specific as you can about dates and what occurred."
           className="w-full bg-transparent border-2 border-clay-brown/30 rounded-lg focus:ring-0 focus:border-primary-container px-3 py-2 font-body-md min-h-[140px] mb-stack-md"
         />
         <button

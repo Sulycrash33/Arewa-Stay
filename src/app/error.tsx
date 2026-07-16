@@ -11,7 +11,7 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log to the console for now — wire to Sentry/PostHog when available.
+    // Log to the console for now, wire to Sentry/PostHog when available.
     console.error('Route error boundary caught:', error);
   }, [error]);
 

@@ -69,7 +69,7 @@ export default function NewListingPage() {
       return;
     }
 
-    toast({ title: 'Listing started — let\'s add some photos' });
+    toast({ title: 'Listing started, let\'s add some photos' });
     router.push(`/host/listings/${data.id}/photos`);
   };
 
@@ -81,7 +81,7 @@ export default function NewListingPage() {
 
       <h1 className="font-headline-lg text-headline-lg text-m3-primary mb-2">Tell us about your place</h1>
       <p className="font-body-md text-on-surface-variant mb-stack-lg">
-        Start with the basics — you can add photos, cultural features, and pricing in the next steps.
+        Start with the basics, you can add photos, cultural features, and pricing in the next steps.
       </p>
 
       <form onSubmit={handleSubmit} className="rounded-tubali bg-surface-container-lowest tubali-border p-stack-md space-y-stack-md">

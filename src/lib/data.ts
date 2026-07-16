@@ -52,7 +52,7 @@ export interface ListingFilters {
   detachedQuarters?: boolean;
   has247Solar?: boolean;
   hasBorehole?: boolean;
-  checkIn?: string; // ISO date — excludes listings booked across this range
+  checkIn?: string; // ISO date, excludes listings booked across this range
   checkOut?: string;
 }
 
@@ -118,7 +118,7 @@ export async function getListingById(id: string): Promise<Listing | null> {
   return data ? shapeListing(data) : null;
 }
 
-/** Host's own listings, any status — used on the host dashboard. */
+/** Host's own listings, any status, used on the host dashboard. */
 export async function getHostListings(hostId: string): Promise<Listing[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -141,7 +141,7 @@ export async function getReviewsForListing(listingId: string): Promise<Review[]>
   return data ?? [];
 }
 
-/** Booked date ranges for a listing — feed straight into the calendar's disabled-days. */
+/** Booked date ranges for a listing, feed straight into the calendar's disabled-days. */
 export async function getBookedRanges(listingId: string): Promise<{ from: string; to: string }[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -155,7 +155,7 @@ export async function getBookedRanges(listingId: string): Promise<{ from: string
 
 /**
  * Create a booking. The DB's exclusion constraint (see migration 0001) is the
- * real source of truth for double-booking — this just surfaces that as a
+ * real source of truth for double-booking, this just surfaces that as a
  * friendly error instead of a raw Postgres exception.
  */
 export async function createBooking(input: {
@@ -172,7 +172,7 @@ export async function createBooking(input: {
 
   if (error) {
     if (error.code === '23P01') {
-      // exclusion_violation — the date range overlaps an existing booking
+      // exclusion_violation, the date range overlaps an existing booking
       return { booking: null, error: 'Those dates were just booked by someone else. Please pick different dates.' };
     }
     return { booking: null, error: error.message };
@@ -180,7 +180,7 @@ export async function createBooking(input: {
   return { booking: data, error: null };
 }
 
-/** Full booking detail for the host's review screen — booking + listing + guest profile. */
+/** Full booking detail for the host's review screen, booking + listing + guest profile. */
 export async function getBookingForReview(bookingId: string) {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -221,7 +221,7 @@ export async function getHostVerificationStatus(userId: string) {
   return { profile, latestVerification: verifications?.[0] ?? null };
 }
 
-/** Submit for host verification. Note: we never store a raw NIN/BVN number —
+/** Submit for host verification. Note: we never store a raw NIN/BVN number , 
  * only the fact that a submission happened, pending review by a liaison or a
  * licensed identity-verification provider integration. */
 export async function submitHostVerification(userId: string, idType: 'NIN' | 'BVN') {
@@ -235,7 +235,7 @@ export async function submitHostVerification(userId: string, idType: 'NIN' | 'BV
 }
 
 /** All listings for the admin moderation queue, optionally filtered by status.
- * Relies on the "admins see all listings" RLS policy (0006_admin_moderation.sql) —
+ * Relies on the "admins see all listings" RLS policy (0006_admin_moderation.sql) , 
  * a non-admin caller will just get back their own listings per the normal policy. */
 export async function getListingsForAdmin(status?: 'pending' | 'approved' | 'rejected'): Promise<Listing[]> {
   const supabase = await createClient();

@@ -34,7 +34,7 @@ export default function PrivacyPage() {
       <p className={P_CLASS}>
         <strong className="text-on-surface">Identity verification:</strong> if you list a property as a host,
         you may submit your NIN or BVN for one-time validation. We do not store the raw number in our
-        database — only whether the check succeeded, via a licensed identity-verification provider or a
+        database, only whether the check succeeded, via a licensed identity-verification provider or a
         community liaison review, is retained.
       </p>
       <p className={P_CLASS}>

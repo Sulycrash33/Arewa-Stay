@@ -16,7 +16,7 @@ export default function SaveButton({ listingId }: { listingId: string }) {
   const [loading, setLoading] = useState(false);
 
   // Reuse a single Supabase client instance across effect + toggle instead
-  // of creating a new one on every call — the browser client is cheap but
+  // of creating a new one on every call, the browser client is cheap but
   // there's no reason to allocate repeatedly.
   const supabaseRef = useRef<ReturnType<typeof createClient> | null>(null);
   const getSupabase = () => {
@@ -55,7 +55,7 @@ export default function SaveButton({ listingId }: { listingId: string }) {
     const supabase = getSupabase();
     const wasSaved = saved;
 
-    // Optimistic update — revert on error.
+    // Optimistic update, revert on error.
     setSaved(!wasSaved);
 
     try {

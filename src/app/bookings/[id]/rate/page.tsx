@@ -73,7 +73,7 @@ export default function LeaveReviewPage() {
       toast({ title: 'Could not submit review', description: error.message, variant: 'destructive' });
       return;
     }
-    toast({ title: 'Review submitted — thank you' });
+    toast({ title: 'Review submitted, thank you' });
     router.push('/dashboard/bookings');
   };
 

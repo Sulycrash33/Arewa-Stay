@@ -23,7 +23,7 @@ export interface Profile {
 export interface Amenity {
   id: number;
   name: string;
-  icon: string; // lucide-react icon name — resolved via the icon map at render time
+  icon: string; // lucide-react icon name, resolved via the icon map at render time
 }
 
 export interface SpecialPackage {

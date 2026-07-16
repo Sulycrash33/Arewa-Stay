@@ -147,7 +147,7 @@ export default function PricingStep() {
           <h3 className="font-title-md text-sm text-on-surface mb-1">Ramadan &amp; Eid pricing</h3>
           <p className="font-label-sm text-label-sm text-on-surface-variant mb-2">
             Optionally charge more when a stay overlaps Ramadan, Eid al-Fitr, or Eid al-Adha (calculated from
-            the Hijri calendar — dates may differ by a day from local moon-sighting announcements).
+            the Hijri calendar, dates may differ by a day from local moon-sighting announcements).
           </p>
           <div className="flex items-center gap-2">
             <input

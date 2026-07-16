@@ -1,5 +1,5 @@
 // Gregorian <-> Hijri conversion using the tabular (arithmetic) Islamic
-// calendar — the same well-established algorithm used by most calendar
+// calendar, the same well-established algorithm used by most calendar
 // libraries (sometimes called the "Kuwaiti algorithm"). This is a
 // calculated approximation: it can differ by a day from a given country's
 // official moon-sighting announcement for Ramadan/Eid. We say so plainly
@@ -61,7 +61,7 @@ export function formatHijri(date: Date): string {
 export interface IslamicEvent { name: string; start: Date; end: Date; }
 
 /** Ramadan, Eid al-Fitr, and Eid al-Adha date ranges falling within (or
- * overlapping) the given Gregorian year — calculated, not moon-sighting
+ * overlapping) the given Gregorian year, calculated, not moon-sighting
  * confirmed. Checks the Hijri years that could plausibly overlap. */
 export function getIslamicEventsForYear(gregorianYear: number): IslamicEvent[] {
   const events: IslamicEvent[] = [];

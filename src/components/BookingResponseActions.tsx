@@ -23,7 +23,7 @@ export default function BookingResponseActions({ bookingId }: { bookingId: strin
         .eq('id', bookingId);
       if (error) throw error;
       toast({
-        title: action === 'accept' ? 'Booking accepted — Maraba!' : 'Booking declined',
+        title: action === 'accept' ? 'Booking accepted, Maraba!' : 'Booking declined',
         description: action === 'accept'
           ? 'The guest has been notified and payment will be released to you on schedule.'
           : 'The guest has been notified and their hold has been released.',

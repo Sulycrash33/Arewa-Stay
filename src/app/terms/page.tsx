@@ -40,7 +40,7 @@ export default function TermsPage() {
       <p className={P_CLASS}>
         To build trust between strangers transacting for the first time, hosts are asked to verify their
         identity using their National Identification Number (NIN) or Bank Verification Number (BVN). Arewa
-        Stay does not store your raw NIN or BVN in our database — we record only the outcome of a one-time
+        Stay does not store your raw NIN or BVN in our database, we record only the outcome of a one-time
         validation performed through a licensed identity-verification provider or a community liaison review.
         See our Privacy Policy for full detail on how this data is handled.
       </p>

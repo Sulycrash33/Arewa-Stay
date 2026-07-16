@@ -18,7 +18,7 @@ export default function EarningsEstimator({ ratesByCity }: { ratesByCity: Record
     return Math.round((rate * nightsPerMonth) / 1000) * 1000;
   }, [baseRate, bedrooms, nightsPerMonth]);
 
-  // Stylized price-bubble cluster — our own visual language (henna/topaz
+  // Stylized price-bubble cluster, our own visual language (henna/topaz
   // tones, hand-placed bubbles) standing in for a real map embed, so no
   // external Maps API/billing dependency is needed.
   const bubbles = [

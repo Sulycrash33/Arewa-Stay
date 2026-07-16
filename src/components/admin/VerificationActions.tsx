@@ -20,7 +20,7 @@ export default function VerificationActions({ verificationId, userId }: { verifi
       .eq('id', verificationId);
 
     if (!error) {
-      // Denormalized flag PropertyCard/listing pages read — avoids exposing
+      // Denormalized flag PropertyCard/listing pages read, avoids exposing
       // host_verifications rows (with liaison contact info) publicly.
       await supabase
         .from('profiles')

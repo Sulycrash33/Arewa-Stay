@@ -11,7 +11,7 @@ import { allPropertyPhotos } from '@/lib/stock-photos';
 const currencySymbol = (currency: 'NGN' | 'XOF') => (currency === 'NGN' ? '₦' : 'CFA');
 
 // Deterministic fallback photo per listing (stable across re-renders) for
-// listings without host-uploaded photos yet — replaces a previously broken
+// listings without host-uploaded photos yet, replaces a previously broken
 // reference to a placeholder file that never existed in /public.
 function fallbackPhotoFor(id: string): string {
   let hash = 0;

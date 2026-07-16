@@ -70,7 +70,7 @@ export default function BookingWidget({ listing }: { listing: Listing }) {
       return;
     }
 
-    toast({ title: 'Request sent — awaiting host response (Maraba)' });
+    toast({ title: 'Request sent, awaiting host response (Maraba)' });
     router.push(`/bookings/${data.id}/processing`);
   };
 
@@ -101,7 +101,7 @@ export default function BookingWidget({ listing }: { listing: Listing }) {
           <Moon className="h-4 w-4 text-ochre-gold shrink-0 mt-0.5" />
           <p className="text-xs text-on-surface-variant">
             This stay overlaps <strong className="text-on-surface">{festivalEvent.name}</strong>
-            {multiplier !== 1 && <> — nightly rate adjusted &times;{multiplier}</>}.
+            {multiplier !== 1 && <>, nightly rate adjusted &times;{multiplier}</>}.
           </p>
         </div>
       )}
@@ -133,7 +133,7 @@ export default function BookingWidget({ listing }: { listing: Listing }) {
         {submitting ? 'Sending request…' : 'Request to Book'}
       </button>
       <p className="text-xs text-on-surface-variant text-center mt-stack-sm">
-        The host has 12 hours to accept (Maraba) or decline — you won't be charged until they respond.
+        The host has 12 hours to accept (Maraba) or decline, you won't be charged until they respond.
       </p>
     </div>
   );

@@ -149,7 +149,7 @@ export default function ConversationThread() {
         <div ref={bottomRef} />
       </div>
 
-      {/* Cultural courtesy tray — quick greeting chips that adapt to time of day */}
+      {/* Cultural courtesy tray, quick greeting chips that adapt to time of day */}
       <div className="flex gap-2 overflow-x-auto px-4 pb-2">
         {greetingChips().map((chip) => (
           <button

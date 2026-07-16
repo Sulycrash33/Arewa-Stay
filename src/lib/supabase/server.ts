@@ -1,4 +1,4 @@
-// Server-side Supabase client — for Server Components, Route Handlers, Server Actions.
+// Server-side Supabase client, for Server Components, Route Handlers, Server Actions.
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { createMockSupabaseClient } from '@/lib/supabase/mock-client';
@@ -26,7 +26,7 @@ export async function createClient() {
               cookieStore.set(name, value, options)
             );
           } catch {
-            // called from a Server Component — safe to ignore if middleware refreshes sessions
+            // called from a Server Component, safe to ignore if middleware refreshes sessions
           }
         },
       },

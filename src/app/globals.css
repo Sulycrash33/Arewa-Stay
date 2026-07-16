@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /*
-  Heritage Hospitality design system — adopted from the reference M3 spec.
+  Heritage Hospitality design system, adopted from the reference M3 spec.
   Deep Emerald (primary-container #0F5257) for actions, Ochre Gold
   (secondary-container/#D4AF37) for highlights, Clay Brown (#C19A6B) for
   dividers/borders, Sand (#FAF9F6) as the base canvas. shadcn's semantic
@@ -55,7 +55,7 @@
 }
 
 @layer utilities {
-  /* Tubali card — the shadow-and-inset treatment from the reference spec,
+  /* Tubali card, the shadow-and-inset treatment from the reference spec,
      used instead of heavy drop shadows ("tonal layering, not shadows"). */
   .tubali-shadow {
     box-shadow: inset 0 0 0 1px rgba(193, 154, 107, 0.2);
@@ -67,7 +67,7 @@
     box-shadow: 0 4px 12px rgba(15, 82, 87, 0.15);
   }
 
-  /* Henna linework pattern — real mehndi-style paisley/floral motifs used as
+  /* Henna linework pattern, real mehndi-style paisley/floral motifs used as
      a subtle background texture, replacing the earlier repeating icon-strip
      band. Two variants: dark linework for light surfaces, light linework
      for dark surfaces (e.g. the primary-container hero panel). */
@@ -81,7 +81,7 @@
     background-repeat: repeat;
     background-size: 240px 240px;
   }
-  /* Site-wide wall texture, applied directly as the <body> background —
+  /* Site-wide wall texture, applied directly as the <body> background , 
      not a floating overlay div. A background-image on an element is
      guaranteed by the CSS spec to paint behind that element's own
      children, so this can never cover scrolled content the way a fixed

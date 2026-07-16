@@ -29,7 +29,7 @@ export default function ListingModerationCard({ listing }: { listing: Listing })
       toast({ title: 'Could not update listing', description: error.message, variant: 'destructive' });
       return;
     }
-    toast({ title: status === 'approved' ? 'Listing approved — now live' : 'Listing rejected' });
+    toast({ title: status === 'approved' ? 'Listing approved, now live' : 'Listing rejected' });
     router.refresh();
   };
 

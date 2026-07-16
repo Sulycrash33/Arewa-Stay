@@ -1,4 +1,4 @@
-// Northern Nigeria (19 states + FCT) and Niger Republic — grouped so the
+// Northern Nigeria (19 states + FCT) and Niger Republic, grouped so the
 // destination picker can show real hierarchy (state → its major towns)
 // instead of one flat, sparse list. `city` on a listing is still free text,
 // so hosts in towns not listed here can still type their own.
@@ -43,7 +43,7 @@ export const nigerRepublicStates: StateGroup[] = [
 
 export const allRegions: StateGroup[] = [...northernNigeriaStates, ...nigerRepublicStates];
 
-// Flat lists, derived from the above — used wherever a simple dropdown or
+// Flat lists, derived from the above, used wherever a simple dropdown or
 // filter pill list is enough (search bar, listings page state filter).
 export const arewaStates: string[] = allRegions.map((g) => g.state);
 export const arewaCities: string[] = allRegions.flatMap((g) => g.cities);

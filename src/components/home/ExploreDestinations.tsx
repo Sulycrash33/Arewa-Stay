@@ -31,7 +31,7 @@ export default async function ExploreDestinations() {
           <span className="font-label-sm text-label-sm text-ochre-gold uppercase tracking-widest">{t.exploreByDestination}</span>
           <h2 className="font-headline-lg text-headline-lg text-m3-primary mt-1">{t.destinationsSubtitle}</h2>
           <p className="font-body-md text-sm text-on-surface-variant mt-1">
-            {totalTowns}+ towns across Northern Nigeria &amp; Niger Republic — every home deserves a guest.
+            {totalTowns}+ towns across Northern Nigeria &amp; Niger Republic. Every home deserves a guest.
           </p>
         </div>
         <Link href="/listings" className="hidden md:flex items-center gap-1 font-label-md text-label-md text-primary-container hover:underline shrink-0">

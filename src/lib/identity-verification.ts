@@ -4,13 +4,13 @@
  * IMPORTANT: This does NOT actually verify a NIN or BVN against any real
  * government or bank database. No such integration exists yet because that
  * requires a paid account and API key with a licensed provider (e.g.
- * Youverify, Paystack Identity, or a direct NIBSS integration) — the same
+ * Youverify, Paystack Identity, or a direct NIBSS integration), the same
  * kind of external credential dependency as Paystack payments.
  *
  * What this module does today: validates the *shape* of the input (11
  * digits) and returns a `pending` result, exactly as if a real check were
  * in flight. The admin approval queue (/admin/verifications) is the actual
- * decision-maker right now — a human reviews the submission.
+ * decision-maker right now, a human reviews the submission.
  *
  * When real credentials are available, swap the body of `verifyIdentity`
  * for a real API call. Nothing else in the app needs to change: the
@@ -49,6 +49,6 @@ export async function verifyIdentity(
 
   return {
     status: 'pending_manual_review',
-    reason: 'No identity verification provider is configured yet — an admin will review this submission manually.',
+    reason: 'No identity verification provider is configured yet, an admin will review this submission manually.',
   };
 }

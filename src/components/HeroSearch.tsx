@@ -26,12 +26,12 @@ export default function HeroSearch() {
 
   return (
     <section className="relative w-full overflow-hidden">
-      {/* Full-bleed hero photo — interior window view of a guest watching a
+      {/* Full-bleed hero photo, interior window view of a guest watching a
           rider pass a Heritage Hospitality compound at golden hour. */}
       <div className="relative h-[520px] md:h-[600px] w-full">
         <Image
           src={realPropertyPhotos.hero[0]}
-          alt="Arewa Stay — a guest's window view of Northern Hospitality"
+          alt="Arewa Stay, a guest's window view of Northern Hospitality"
           fill
           priority
           className="object-cover"

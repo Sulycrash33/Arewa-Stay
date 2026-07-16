@@ -33,15 +33,15 @@ export default function IdentityVerificationPage() {
         return;
       }
 
-      // We deliberately never persist the raw NIN/BVN — only that a
+      // We deliberately never persist the raw NIN/BVN, only that a
       // submission was made, and the outcome of verification (currently
-      // always manual review — see lib/identity-verification.ts for why).
+      // always manual review, see lib/identity-verification.ts for why).
       const supabase = createClient();
       const { error } = await supabase.from('host_verifications').insert({
         user_id: profile.id,
         notes: result.status === 'verified'
           ? `${idType} verified automatically via ${result.provider}`
-          : `${idType} submitted — ${result.reason}`,
+          : `${idType} submitted, ${result.reason}`,
         status: 'pending',
       });
       if (error) throw error;
@@ -114,7 +114,7 @@ export default function IdentityVerificationPage() {
             <div className="bg-surface-container-low p-3 rounded-lg border border-outline-variant/20 flex gap-3 items-start mb-stack-md">
               <Lock className="h-4 w-4 text-outline mt-0.5 shrink-0" />
               <p className="font-label-sm text-label-sm text-on-surface-variant">
-                Your data is encrypted and securely processed. Arewa Stay does not store your BVN or NIN directly — we only use it for a one-time validation via official channels.
+                Your data is encrypted and securely processed. Arewa Stay does not store your BVN or NIN directly, we only use it for a one-time validation via official channels.
               </p>
             </div>
 

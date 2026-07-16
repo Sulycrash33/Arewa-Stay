@@ -23,11 +23,11 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Arewa Stay — Modern Comfort, Timeless Heritage',
+  title: 'Arewa Stay, Modern Comfort, Timeless Heritage',
   description: 'Authentic Northern Nigerian boutique hospitality. Discover curated stays across Kano, Kaduna, Sokoto and beyond.',
   openGraph: {
     title: 'Arewa Stay',
-    description: 'Modern Comfort, Timeless Heritage — boutique stays across Northern Nigeria and the Sahel.',
+    description: 'Modern Comfort, Timeless Heritage, boutique stays across Northern Nigeria and the Sahel.',
     siteName: 'Arewa Stay',
     locale: 'en_NG',
     type: 'website',
