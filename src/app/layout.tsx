@@ -45,7 +45,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <script dangerouslySetInnerHTML={{ __html: setLangScript }} />
       </head>
-      <body className={cn('font-body-md antialiased min-h-screen flex flex-col text-foreground')}>
+      <body className={cn('font-body-md antialiased min-h-screen flex flex-col text-foreground hausa-wall bg-background')}>
         <LanguageProvider>
           <a
             href="#main-content"
@@ -53,14 +53,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           >
             Skip to content
           </a>
-          {/* Site-wide henna wall texture — fixed behind every page (not just
-              the homepage). Carries the base background color itself so it
-              isn't painted behind body's own background (a common z-index
-              gotcha with negative-index fixed layers); content below stacks
-              above it naturally via normal document order. */}
-          <div className="fixed inset-0 bg-background pointer-events-none" aria-hidden>
-            <div className="absolute inset-0 henna-wall opacity-[0.07]" />
-          </div>
           <Header />
           <main id="main-content" className="flex-grow">{children}</main>
           <Footer />

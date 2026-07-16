@@ -81,13 +81,14 @@
     background-repeat: repeat;
     background-size: 240px 240px;
   }
-  /* Site-wide wall texture: applied once, fixed, behind every page via
-     RootLayout — not a per-section accent. Small tile + low wrapper
-     opacity (set on the element using this class) keeps it a background
-     wash rather than a foreground pattern competing with content. */
-  .henna-wall {
-    background-image: url('/patterns/henna-wall.svg');
+  /* Site-wide wall texture, applied directly as the <body> background —
+     not a floating overlay div. A background-image on an element is
+     guaranteed by the CSS spec to paint behind that element's own
+     children, so this can never cover scrolled content the way a fixed
+     overlay div can. Opacity is baked into hausa-wall.svg itself. */
+  .hausa-wall {
+    background-image: url('/patterns/hausa-wall.svg');
     background-repeat: repeat;
-    background-size: 200px 200px;
+    background-size: 260px 260px;
   }
 }
