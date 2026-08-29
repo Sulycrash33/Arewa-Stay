@@ -1,10 +1,12 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Mic, Square, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+const MAX_RECORDING_SECONDS = 120;
 
 export default function VoiceRecorderButton({
   conversationId,
@@ -23,6 +25,15 @@ export default function VoiceRecorderButton({
   const chunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  const stopRecordingRef = useRef<(() => void) | null>(null);
+
+  // Auto-stop at the cap so nobody accidentally uploads a 20-minute file.
+  useEffect(() => {
+    if (recording && seconds >= MAX_RECORDING_SECONDS) {
+      stopRecordingRef.current?.();
+    }
+  }, [recording, seconds]);
+
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -33,6 +44,7 @@ export default function VoiceRecorderButton({
       mediaRecorderRef.current = recorder;
       setRecording(true);
       setSeconds(0);
+      stopRecordingRef.current = stopRecording;
       timerRef.current = setInterval(() => setSeconds((s) => s + 1), 1000);
     } catch {
       toast({ title: 'Microphone access denied', description: 'Enable microphone permission to send a voice note.', variant: 'destructive' });
@@ -43,11 +55,12 @@ export default function VoiceRecorderButton({
     const recorder = mediaRecorderRef.current;
     if (!recorder) return;
     if (timerRef.current) clearInterval(timerRef.current);
+    stopRecordingRef.current = null;
 
     recorder.onstop = async () => {
       recorder.stream.getTracks().forEach((t) => t.stop());
       const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
-      const duration = seconds;
+      const duration = Math.min(seconds, MAX_RECORDING_SECONDS);
       setRecording(false);
 
       if (duration < 1) return; // discard accidental taps

@@ -44,6 +44,14 @@ class MockQueryBuilder<T = unknown> {
 }
 
 export function createMockSupabaseClient() {
+  // Loudly visible in the browser console so a missing env var in production
+  // is never mistaken for "the app works but has no data".
+  if (typeof console !== 'undefined') {
+    console.warn(
+      '[Arewa Stay] NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY are not set. ' +
+      'Falling back to the mock Supabase client: no data will load or persist.'
+    );
+  }
   return {
     auth: {
       getUser: async () => ({ data: { user: null }, error: null }),

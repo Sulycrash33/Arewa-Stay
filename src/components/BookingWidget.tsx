@@ -18,6 +18,12 @@ export default function BookingWidget({ listing }: { listing: Listing }) {
   const [guests, setGuests] = useState(1);
   const [submitting, setSubmitting] = useState(false);
 
+  // Local-date string (not UTC) so the min attribute matches what the user sees.
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  const checkInMin = todayStr;
+  const checkOutMin = checkIn && checkIn > todayStr ? checkIn : todayStr;
+
   const nights = checkIn && checkOut
     ? Math.max(0, Math.round((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / 86400000))
     : 0;
@@ -36,6 +42,10 @@ export default function BookingWidget({ listing }: { listing: Listing }) {
     }
     if (!checkIn || !checkOut || nights <= 0) {
       toast({ title: 'Pick valid check-in and check-out dates', variant: 'destructive' });
+      return;
+    }
+    if (checkIn < todayStr) {
+      toast({ title: 'Check-in cannot be in the past', variant: 'destructive' });
       return;
     }
     if (guests > listing.max_guests) {
@@ -86,12 +96,12 @@ export default function BookingWidget({ listing }: { listing: Listing }) {
       <div className="grid grid-cols-2 gap-2 mb-stack-sm">
         <div className="border border-outline-variant/40 rounded-lg p-2">
           <label className="block font-label-sm text-label-sm text-on-surface-variant">Check-in</label>
-          <input type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} className="w-full bg-transparent text-sm focus:outline-none" />
+          <input type="date" min={checkInMin} value={checkIn} onChange={(e) => setCheckIn(e.target.value)} className="w-full bg-transparent text-sm focus:outline-none" />
           {checkIn && <span className="text-[11px] text-on-surface-variant/70">{formatHijri(new Date(checkIn))}</span>}
         </div>
         <div className="border border-outline-variant/40 rounded-lg p-2">
           <label className="block font-label-sm text-label-sm text-on-surface-variant">Check-out</label>
-          <input type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} className="w-full bg-transparent text-sm focus:outline-none" />
+          <input type="date" min={checkOutMin} value={checkOut} onChange={(e) => setCheckOut(e.target.value)} className="w-full bg-transparent text-sm focus:outline-none" />
           {checkOut && <span className="text-[11px] text-on-surface-variant/70">{formatHijri(new Date(checkOut))}</span>}
         </div>
       </div>
