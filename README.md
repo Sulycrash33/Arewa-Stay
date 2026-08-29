@@ -13,8 +13,12 @@ built with Next.js 15, Supabase (Postgres + Auth), Tailwind, and the shared
 ## Setup
 1. `npm install`
 2. Copy `.env.local.example` to `.env.local` and fill in your Supabase project URL + publishable key
-3. Run the migration in `supabase/migrations/0001_init.sql` via the Supabase SQL Editor
+3. Apply every migration in `supabase/migrations/` in filename order via the Supabase SQL Editor (or `supabase db push` once linked). Notes: 0003 and 0004 were folded into 0002 as inline blocks; 0006+ depend on functions created in earlier files, so order matters. `0013_security_hardening.sql` is idempotent (safe to re-run).
 4. `npm run dev`
+
+## CI
+GitHub Actions runs `npm run typecheck` and `npm run build` on every push to
+main and every pull request (`.github/workflows/ci.yml`).
 
 ## Design system: Kofar Mata (shared with ClashFree)
 Locked palette, do not drift:

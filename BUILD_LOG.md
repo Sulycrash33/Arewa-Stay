@@ -6,6 +6,97 @@ chunk of work: what changed, what's mid-flight, exact next step.
 
 ---
 
+## 2026-08-29, Security hardening (0013), password reset, CI
+
+### What this session found
+A full review of the RLS layer revealed the policies all shared one flaw:
+they checked WHICH ROWS a user could touch but never WHICH COLUMNS or VALUES.
+Every item below was verified exploitable against a real Postgres running
+migrations 0001-0012 with Supabase auth/storage stubs, executed as the
+`authenticated` role with a spoofed JWT subject (13 of 13 attacks succeeded):
+any user could promote themselves to admin, self-verify + claim sarki tier,
+self-approve listings (moderation bypass), self-confirm bookings (Maraba
+bypass), tamper with total_price/currency/guests, fake reviews with no
+booking, review non-completed or their own bookings, spam disputes on
+arbitrary bookings, self-approve host verifications, and create conversations
+impersonating other users. Also confirmed: voice notes could never work on a
+fresh database (messages.text NOT NULL, insert omits text), and a host could
+delete a listing with active bookings/open disputes, cascading away bookings
+and dispute evidence.
+
+### Migration 0013_security_hardening.sql (idempotent, safe to re-run)
+- `messages.text` dropped NOT NULL + `messages_text_or_audio` CHECK (text or
+  audio_url required). Fixes voice notes.
+- BEFORE UPDATE trigger on `profiles`: role / identity_verified / host_tier /
+  completed_stays / avg_response_minutes are admin-only (is_admin() honoured,
+  so admin verification actions keep working unchanged).
+- BEFORE INSERT OR UPDATE trigger on `listings`: status is admin-only; new
+  listings must start pending.
+- BEFORE DELETE trigger on `listings`: blocks delete while pending/confirmed
+  bookings exist or any non-closed dispute references the listing's bookings.
+- BEFORE INSERT trigger on `bookings`: forces status=pending, currency from
+  the listing, validates total_price within [nights x rate, nights x rate x
+  festival multiplier], guests_count <= max_guests, check_in not in the past,
+  listing must be approved.
+- BEFORE UPDATE trigger on `bookings`: core fields immutable; hosts may only
+  do pending->confirmed/cancelled and confirmed->cancelled; guests may only
+  cancel; nothing else.
+- Replaced insert policies on reviews (completed booking + real participant +
+  reviewee must be the other party), disputes (participant + confirmed or
+  completed booking), conversations (guest initiates, host must own the
+  listing), host_verifications (status must be pending).
+- New policy: admins can SELECT contact_messages (previously write-only black
+  hole; still no UI, see below).
+- Trusted server context: triggers skip checks when current_user is not
+  authenticated/anon, so expire_stale_bookings() / mark_completed_bookings()
+  (SECURITY DEFINER) and the service role keep working. Verified both via
+  RPC as an authenticated user.
+
+### Validation
+Embedded Postgres 18 harness (Supabase auth.uid()/storage stubs, real role
+switching): pre-fix 13/13 attacks succeeded, post-fix 13/13 blocked, 44/44
+legitimate-flow checks passed (host Maraba accept/decline/cancel, admin
+approve listing + set identity_verified, guest cancel/book base and festival
+price/review/dispute/message/voice note, maintenance RPCs, anon contact form,
+admin inbox read).
+
+### App changes
+- `/auth`: forgot-password flow (resetPasswordForEmail -> `/auth/reset`),
+  signup now detects email-confirmation mode (no session) and shows a
+  "confirm your email" toast instead of pretending the user is signed in.
+- `/auth/reset` (new page): recovery-link landing, sets new password via
+  updateUser, handles expired/used links.
+- `BookingWidget`: date inputs get min attributes (today, and check-out after
+  check-in), past check-in blocked client-side too (server enforces in 0013).
+- `VoiceRecorderButton`: 120-second recording cap with auto-stop.
+- Mock Supabase client: console.warn on fallback so missing env vars are
+  never silent in production.
+- `.github/workflows/ci.yml`: typecheck + build on push/PR. NOTE: not yet in
+  the repo — the PAT used for the push lacks `workflow` scope, so GitHub
+  rejected it. Add it via the GitHub web UI (or a workflow-scoped token):
+  create `.github/workflows/ci.yml` with the content from the patch file in
+  this change's PR/description. Everything else here is pushed.
+- README setup steps now say to run ALL migrations in order (was 0001 only).
+
+### Explicitly NOT done yet
+- No admin UI for the contact-messages inbox (policy now allows it, page is
+  next, quick win).
+- Festival pricing is still all-or-nothing per stay (not prorated per night),
+  same as before, but the insert trigger bounds the total between base and
+  fully-multiplied price so the guest can never pay under base.
+- `npm audit`: nanoid/postcss/sharp bumped within semver; **next 15.x has
+  open HIGH advisories (SSRF in Server Actions, DoS, cache confusion) with
+  fixes only in Next 16**. Upgrading means React 19 + a dedicated session;
+  do it before any real traffic.
+- No LICENSE file (deliberate: that's a business decision, not an omission).
+- completed_stays/host_tier progression still has no writer (now admin-only
+  or server-side when it gets one).
+- Tests are still only the migration harness (lives outside this repo in the
+  session sandbox); consider committing a pgTAP or embedded-postgres harness
+  later.
+
+---
+
 ## 2026-07-12, Audit + Admin Moderation Dashboard
 
 ### Audit correction (important)
